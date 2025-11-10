@@ -2,6 +2,11 @@ import psutil
 import datetime
 import platform
 import json
+from google import genai
+from google.genai import types
+
+
+system_data_json = ""
 
 def get_cpu_usage():
     return psutil.cpu_percent(interval=1)
@@ -91,6 +96,7 @@ def get_processes_info():
     return sorted_processes[:5]
 
 def main():
+    global system_data_json
     timestamp = datetime.datetime.now().isoformat()
 
     psutil.cpu_percent(interval=None) 
@@ -108,7 +114,33 @@ def main():
         "processes": get_processes_info()
     }
 
-    print(json.dumps(system_data, indent=4))
+    system_data_json = json.dumps(system_data, indent=4)
+
 
 if __name__ == "__main__":
     main()
+
+
+system_instruction_template = (
+    f"{system_data_json}\n"
+)
+
+config = types.GenerateContentConfig(
+        system_instruction=system_instruction_template,
+        temperature=0.1,
+        max_output_tokens=500,
+    )   
+
+
+client = genai.Client()
+
+while True:
+    input_text = input("What do you want to ask? \n")
+    if(input_text.lower() == "exit"):
+        break
+    response = client.models.generate_content(
+        model="gemini-2.5-flash",
+        contents=[input_text],
+        config = config
+    )
+    print(response.text)
