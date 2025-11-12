@@ -8,16 +8,10 @@ from google.generativeai import types
 import os
 import save as sv
 
-# ✅ Load environment variables from .env file
 load_dotenv()
-
-# ✅ Fetch API key
 api_key = os.getenv("GEMINI_API_KEY")
-
-# ✅ Configure the Google Generative AI SDK
 genai.configure(api_key=api_key)
 
-# Optional: confirm load
 if not api_key:
     raise ValueError("API key not found! Make sure .env file exists and contains GEMINI_API_KEY.")
 
@@ -131,35 +125,29 @@ def main():
 
     system_data_json = json.dumps(system_data, indent=4)
 
-
 if __name__ == "__main__":
     main()
-
 
 system_instruction_template = (
     f"{system_data_json}\n"
 )
 
-# ✅ Create GenerationConfig (only valid parameters)
 config = types.GenerationConfig(
     temperature=0.1,
     max_output_tokens=500,
 )
 
-# ✅ Initialize the model (attach system_instruction here)
 model = genai.GenerativeModel(
-    model_name="gemini-2.0-flash",   # or "gemini-1.5-pro" if you prefer
+    model_name="gemini-2.0-flash",
     system_instruction=system_instruction_template,
     generation_config=config
 )
 
-# ✅ Chat loop
-# (user_input,bot_response) list =[]
 while True:
     user_input = input("What do you want to ask?\n> ")
     if user_input.lower() == "exit":
-        print("Goodbye! 👋")
+        print("Goodbye!")
         break
 
     response = model.generate_content(user_input)
-    print("\n🧠 Response:\n", response.text)
+    print("\n Response:\n", response.text)
