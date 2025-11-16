@@ -1,12 +1,10 @@
 import psutil
 import datetime
 import platform
-import json
-from google import genai
-from google.genai import types
-
-
-system_data_json = ""
+import time
+import os
+import collections
+from toon import encode
 
 def get_cpu_usage():
     return psutil.cpu_percent(interval=1)
@@ -96,51 +94,41 @@ def get_processes_info():
     return sorted_processes[:5]
 
 def main():
-    global system_data_json
-    timestamp = datetime.datetime.now().isoformat()
-
+    history_length = 12 
+    data_history = collections.deque(maxlen=history_length)
     psutil.cpu_percent(interval=None) 
 
-    system_data = {
-        "timestamp": timestamp,
-        "platform": platform.system(),
-        "cpu": {
-            "usage_percent": get_cpu_usage() 
-        },
-        "memory": get_memory_info(),
-        "disk_root": get_disk_info('/'),
-        "temperatures": get_cpu_temps(),
-        "battery": get_battery_info(),
-        "processes": get_processes_info()
-    }
+    try:
+        while True:
+            timestamp = datetime.datetime.now().isoformat()
 
-    system_data_json = json.dumps(system_data, indent=4)
+            system_data = {
+                "timestamp": timestamp,
+                "platform": platform.system(),
+                "cpu": {
+                    "usage_percent": get_cpu_usage() 
+                },
+                "memory": get_memory_info(),
+                "disk_root": get_disk_info('/'),
+                "temperatures": get_cpu_temps(),
+                "battery": get_battery_info(),
+                "processes": get_processes_info()
+            }
+            
+            data_history.append(system_data)
+            
+            os.system('cls' if os.name == 'nt' else 'clear')
+            
+            root_object = {
+                "system_history": list(data_history)
+            }
+            
+            print(encode(root_object))
+            
+            time.sleep(5)
 
+    except KeyboardInterrupt:
+        pass
 
 if __name__ == "__main__":
     main()
-
-
-system_instruction_template = (
-    f"{system_data_json}\n"
-)
-
-config = types.GenerateContentConfig(
-        system_instruction=system_instruction_template,
-        temperature=0.1,
-        max_output_tokens=500,
-    )   
-
-
-client = genai.Client()
-
-while True:
-    input_text = input("What do you want to ask? \n")
-    if(input_text.lower() == "exit"):
-        break
-    response = client.models.generate_content(
-        model="gemini-2.5-flash",
-        contents=[input_text],
-        config = config
-    )
-    print(response.text)
