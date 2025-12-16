@@ -1,4 +1,4 @@
-## This is local streamlit APP whose releases will be listed soon
+## This is local PyQt5 APP whose releases will be listed soon
 
 # Collect data from your own system and let our web agents handle the rest !
 
