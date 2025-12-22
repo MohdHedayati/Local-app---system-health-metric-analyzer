@@ -1,6 +1,7 @@
 import json
 import uuid
-
+import platform
+import os
 TOKEN_FILE = "token.json"
 HISTORY_FILE = "data/history.json"
 
@@ -28,5 +29,7 @@ def build_payload():
     return {
         "email": load_email(),
         "secret_id": generate_secret_id(),
-        "data": history
+        "payload": history,
+        "device_name": os.getlogin(),
+        "os": platform.system()
     }

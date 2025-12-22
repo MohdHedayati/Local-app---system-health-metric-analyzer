@@ -1,5 +1,6 @@
 import os
 import json
+import sys
 
 from PyQt5.QtWidgets import (
     QWidget,
@@ -19,9 +20,10 @@ class DashboardWindow(QWidget):
     def __init__(self, user_name: str):
         super().__init__()
         self.user_name = user_name or "User"
+        self.monitor_process = None
 
         self.setWindowTitle("Dashboard")
-        self.setFixedSize(400, 200)
+        self.setFixedSize(400, 250)
 
         layout = QVBoxLayout()
         layout.setAlignment(Qt.AlignCenter)
@@ -29,19 +31,24 @@ class DashboardWindow(QWidget):
         self.hello_label = QLabel(f"Hello, {self.user_name}!")
         self.hello_label.setAlignment(Qt.AlignCenter)
 
-        self.logout_button = QPushButton("Logout")
-        self.logout_button.clicked.connect(self.handle_logout)
+        self.start_btn = QPushButton("Start Monitoring")
+        self.stop_btn = QPushButton("Stop Monitoring")
+        self.upload_btn = QPushButton("Upload Data")
+        self.logout_btn = QPushButton("Logout")
+
+        self.start_btn.clicked.connect(self.start_monitoring)
+        self.stop_btn.clicked.connect(self.stop_monitoring)
+        self.upload_btn.clicked.connect(self.handle_upload)
+        self.logout_btn.clicked.connect(self.handle_logout)
 
         layout.addWidget(self.hello_label)
-        layout.addWidget(self.logout_button)
+        layout.addWidget(self.start_btn)
+        layout.addWidget(self.stop_btn)
+        layout.addWidget(self.upload_btn)
+        layout.addWidget(self.logout_btn)
 
         self.setLayout(layout)
 
-        self.monitor_process = subprocess.Popen(
-            ["python", "get_info.py"],
-            stdout=subprocess.DEVNULL,
-            stderr=subprocess.DEVNULL
-        )
 
     def handle_logout(self):
         # Delete local token file and reset env so next launch shows login
@@ -58,14 +65,15 @@ class DashboardWindow(QWidget):
         os.environ[ENV_LOGGED_IN] = "0"
 
         QMessageBox.information(self, "Logged Out", "You have been logged out.")
-
+        if self.monitor_process and self.monitor_process.poll() is None:
+            self.monitor_process.terminate()
+            self.monitor_process.wait()
         # After logout, close dashboard and reopen login window
         from auth import LoginWindow
 
         self.login_window = LoginWindow()
         self.login_window.show()
         self.close()
-        self.monitor_process.terminate()
 
     def handle_upload(self):
         try:
@@ -74,4 +82,26 @@ class DashboardWindow(QWidget):
             QMessageBox.information(self, "Success", "Data uploaded successfully.")
         except Exception as e:
             QMessageBox.critical(self, "Upload Failed", str(e))
+    def start_monitoring(self):
+        if self.monitor_process and self.monitor_process.poll() is None:
+            QMessageBox.information(self, "Info", "Monitoring already running.")
+            return
+
+        self.monitor_process = subprocess.Popen(
+            [sys.executable, "get_info.py"],
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL
+        )
+
+        QMessageBox.information(self, "Started", "System monitoring started.")
+    def stop_monitoring(self):
+        if self.monitor_process and self.monitor_process.poll() is None:
+            self.monitor_process.terminate()
+            self.monitor_process.wait()
+            self.monitor_process = None
+            QMessageBox.information(self, "Stopped", "Monitoring stopped.")
+        else:
+            QMessageBox.information(self, "Info", "Monitoring not running.")
+
+
 
