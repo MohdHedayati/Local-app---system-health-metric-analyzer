@@ -13,14 +13,10 @@ def load_email():
 def generate_secret_id():
     # Stable per-machine secret
     # (store once, reuse forever)
-    try:
-        with open(".secret_id", "r") as f:
-            return f.read().strip()
-    except FileNotFoundError:
-        secret_id = str(uuid.uuid4())
-        with open(".secret_id", "w") as f:
-            f.write(secret_id)
-        return secret_id
+    secret_id = str(uuid.uuid4())
+    with open(".secret_id", "w") as f:
+        f.write(secret_id)
+    return secret_id
 
 def build_payload():
     with open(HISTORY_FILE, "r") as f:

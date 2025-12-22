@@ -25,10 +25,12 @@ def load_user_name_from_token():
 
 
 def main():
+    if 'APP_LOGGED_IN' not in os.environ:
+        os.environ['ENV_LOGGED_IN'] = "0"
     app = QApplication(sys.argv)
 
     # Check env + token file to decide whether user is already logged in
-    logged_in_env = os.environ.get(ENV_LOGGED_IN, "0") == "1"
+    logged_in_env = os.environ.get(ENV_LOGGED_IN) == "1"
     user_name = load_user_name_from_token()
     print(logged_in_env)
     print(user_name)
