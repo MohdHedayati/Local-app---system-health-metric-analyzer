@@ -21,9 +21,6 @@ key = secrets["service_role_key"]
 supabase = create_client(url, key)
 
 def upload():
-    payload = build_payload()
-
-    supabase.table("system_reports").upsert(
-        payload,
-        on_conflict="secret_id"
+    supabase.table("user_system_reports").insert(
+        build_payload()
     ).execute()

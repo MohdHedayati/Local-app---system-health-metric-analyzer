@@ -2,6 +2,8 @@ import json
 import uuid
 import platform
 import os
+import socket
+from datetime import datetime
 TOKEN_FILE = "token.json"
 HISTORY_FILE = "data/history.json"
 
@@ -23,9 +25,21 @@ def build_payload():
         history = json.load(f)
 
     return {
-        "email": load_email(),
-        "secret_id": generate_secret_id(),
-        "payload": history,
-        "device_name": os.getlogin(),
-        "os": platform.system()
+        # maps to user_email
+        "user_email": load_email(),
+
+        # maps to raw_data
+        "raw_data": history,
+
+        # metadata (stored directly in table)
+        "device_name": socket.gethostname(),  # safer than os.getlogin()
+        "os": platform.system(),
+
+        # optional but useful
+        "source": "desktop_app",
+
+        # status handled server-side ideally,
+        # but safe to set explicitly
+        "status": "pending"
     }
+
