@@ -97,6 +97,9 @@ class DashboardWindow(QWidget):
             self.monitor_process.terminate()
             self.monitor_process.wait()
             self.monitor_process = None
+            file_path = "data/history.json"
+            if os.path.exists(file_path):
+                os.remove(file_path)
             QMessageBox.information(self, "Stopped", "Monitoring stopped.")
         else:
             QMessageBox.information(self, "Info", "Monitoring not running.")

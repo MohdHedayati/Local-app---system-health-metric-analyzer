@@ -92,7 +92,7 @@ def get_processes_info():
             
     sorted_processes = sorted(processes, key=lambda p: p['cpu_percent'], reverse=True)
     
-    return sorted_processes[:5]
+    return sorted_processes[:20]
 
 def main():
     history_length = 12 
@@ -123,8 +123,24 @@ def main():
             root_object = {
                 "system_history": list(data_history)
             }
-            result = encode(root_object)
-            print(result)
+            machine_metadata = {
+                "machine": {
+                    "hostname": platform.node(),
+                    "architecture": platform.machine(),
+                    "cpu_model": platform.processor()
+                }
+            }
+            result = {
+                "schema_version": "1.0",
+                "raw": root_object,
+                "encoded": encode(root_object),
+                "machine": {
+                    "hostname": platform.node(),
+                    "architecture": platform.machine(),
+                    "cpu_model": platform.processor()
+                }
+            }
+            # print(result)
             file_path = "data/history.json"
             if not os.path.exists(file_path):
                 directory = os.path.dirname(file_path)
