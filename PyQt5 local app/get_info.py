@@ -1,8 +1,12 @@
 import psutil
 import datetime
 import platform
+import time
 import json
-
+import os
+import collections
+from toon import encode
+from pathlib import Path
 def get_cpu_usage():
     return psutil.cpu_percent(interval=1)
 
@@ -88,27 +92,72 @@ def get_processes_info():
             
     sorted_processes = sorted(processes, key=lambda p: p['cpu_percent'], reverse=True)
     
-    return sorted_processes[:5]
+    return sorted_processes[:20]
 
 def main():
-    timestamp = datetime.datetime.now().isoformat()
-
+    history_length = 12 
+    data_history = collections.deque(maxlen=history_length)
     psutil.cpu_percent(interval=None) 
 
-    system_data = {
-        "timestamp": timestamp,
-        "platform": platform.system(),
-        "cpu": {
-            "usage_percent": get_cpu_usage() 
-        },
-        "memory": get_memory_info(),
-        "disk_root": get_disk_info('/'),
-        "temperatures": get_cpu_temps(),
-        "battery": get_battery_info(),
-        "processes": get_processes_info()
-    }
+    try:
+        while True:
+            timestamp = datetime.datetime.now().isoformat()
 
-    print(json.dumps(system_data, indent=4))
+            system_data = {
+                "timestamp": timestamp,
+                "platform": platform.system(),
+                "cpu": {
+                    "usage_percent": get_cpu_usage() 
+                },
+                "memory": get_memory_info(),
+                "disk_root": get_disk_info('/'),
+                "temperatures": get_cpu_temps(),
+                "battery": get_battery_info(),
+                "processes": get_processes_info()
+            }
+            
+            data_history.append(system_data)
+            
+            os.system('cls' if os.name == 'nt' else 'clear')
+            
+            root_object = {
+                "system_history": list(data_history)
+            }
+            machine_metadata = {
+                "machine": {
+                    "hostname": platform.node(),
+                    "architecture": platform.machine(),
+                    "cpu_model": platform.processor()
+                }
+            }
+            result = {
+                "schema_version": "1.0",
+                "raw": root_object,
+                "encoded": encode(root_object),
+                "machine": {
+                    "hostname": platform.node(),
+                    "architecture": platform.machine(),
+                    "cpu_model": platform.processor()
+                }
+            }
+            # print(result)
+            file_path = "data/history.json"
+            if not os.path.exists(file_path):
+                directory = os.path.dirname(file_path)
+                if directory and not os.path.exists(directory):
+                    os.makedirs(directory) # Creates directory and any necessary parent directories
+
+                with open(file_path, 'w') as f:
+                    f.write("[\n]")
+            lis = json.load(open(file_path,'r'))
+            lis.append(result)
+            if len(lis) > 100:
+                lis = lis[1::-1]
+            json.dump(lis, open(file_path,'w'),indent = 4)
+            time.sleep(5)
+
+    except KeyboardInterrupt:
+        pass
 
 if __name__ == "__main__":
     main()
