@@ -4,8 +4,7 @@ import platform
 import os
 import socket
 from datetime import datetime
-TOKEN_FILE = "token.json"
-HISTORY_FILE = "data/history.json"
+from constants import TOKEN_FILE, DATA_FILE as HISTORY_FILE
 
 def load_email():
     with open(TOKEN_FILE, "r") as f:

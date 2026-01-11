@@ -12,7 +12,7 @@ AGGREGATE_EVERY_N_SAMPLES = 60
 MAX_RAW_SAMPLES = 120
 TOP_PROCESSES_AGG = 50
 MAX_AGGREGATED_RECORDS = 500
-DATA_FILE = "data/history.json"
+from constants import DATA_FILE
 
 def get_cpu_usage():
     return psutil.cpu_percent(interval=None)
@@ -179,7 +179,7 @@ def main():
                 "data": safe_state,
                 "encoded": encode(safe_state)
             }
-
+            print("Hello")
             with open(DATA_FILE, "w") as f:
                 json.dump(payload, f, indent=2)
 

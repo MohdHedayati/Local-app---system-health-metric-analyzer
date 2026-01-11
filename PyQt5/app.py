@@ -6,8 +6,7 @@ from PyQt5.QtWidgets import QApplication
 
 from auth import LoginWindow
 from dashboard import DashboardWindow
-
-TOKEN_FILE = "token.json"          # where Google credentials are stored
+from constants import TOKEN_FILE        # where Google credentials are stored
 
 def load_user_name_from_token():
     if not os.path.exists(TOKEN_FILE):
@@ -23,6 +22,12 @@ def load_user_name_from_token():
 
 
 def main():
+    # If started as a subprocess to run monitoring, handle that mode:
+    if "--child-get-info" in sys.argv:
+        # Run the monitoring loop directly inside this process (no extra console)
+        from get_info import main as _get_info_main
+        _get_info_main()
+        sys.exit(0)
 
     app = QApplication(sys.argv)
 

@@ -15,7 +15,7 @@ from PyQt5.QtCore import Qt
 from google_auth_oauthlib.flow import InstalledAppFlow
 import webbrowser
 
-TOKEN_FILE = "token.json"
+from constants import TOKEN_FILE 
 
 SCOPES = [
     "openid",
@@ -55,8 +55,9 @@ class LoginWindow(QWidget):
 
         try:
             # Create flow without local server
+            from constants import CLIENT_SECRETS_PATH
             flow = InstalledAppFlow.from_client_secrets_file(
-                "client_secret.json",
+                CLIENT_SECRETS_PATH,
                 scopes=SCOPES,
             )
             # IMPORTANT: set redirect URI for manual copy-paste flow

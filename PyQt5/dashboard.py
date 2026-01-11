@@ -11,9 +11,7 @@ from PyQt5.QtWidgets import (
 )
 from PyQt5.QtCore import Qt
 import subprocess
-
-TOKEN_FILE = "token.json"
-ENV_LOGGED_IN = "APP_LOGGED_IN"
+from constants import TOKEN_FILE
 
 
 class DashboardWindow(QWidget):
@@ -85,11 +83,19 @@ class DashboardWindow(QWidget):
             QMessageBox.information(self, "Info", "Monitoring already running.")
             return
 
-        self.monitor_process = subprocess.Popen(
-            [sys.executable, "get_info.py"],
-            stdout=subprocess.DEVNULL,
-            stderr=subprocess.DEVNULL
-        )
+        args = [sys.executable, sys.argv[0], "--child-get-info"]
+        kwargs = {
+            "stdout": subprocess.DEVNULL,
+            "stderr": subprocess.DEVNULL,
+            "close_fds": True
+        }
+        # Hide console on Windows
+        if sys.platform == "win32" and hasattr(subprocess, "CREATE_NO_WINDOW"):
+            kwargs["creationflags"] = subprocess.CREATE_NO_WINDOW
+
+        self.monitor_process = subprocess.Popen(args, **kwargs)
+
+        QMessageBox.information(self, "Started", "System monitoring started.")
 
         QMessageBox.information(self, "Started", "System monitoring started.")
     def stop_monitoring(self):
