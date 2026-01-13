@@ -91,13 +91,28 @@ def aggregate_samples(samples):
     proc_map = {}
     for s in samples:
         for p in s["processes"]:
-            proc_map.setdefault(p["pid"], []).append(p["cpu_percent"])
+            pid = p["pid"]
+            if pid not in proc_map:
+                proc_map[pid] = {
+                    "name": p.get("name"),
+                    "cpu_samples": []
+                }
+            proc_map[pid]["cpu_samples"].append(p["cpu_percent"])
+
 
     top_procs = sorted(
-        ((pid, sum(v)/len(v)) for pid, v in proc_map.items()),
-        key=lambda x: x[1],
+        (
+            {
+                "pid": pid,
+                "name": data["name"],
+                "avg_cpu_percent": round(sum(data["cpu_samples"]) / len(data["cpu_samples"]), 2)
+            }
+            for pid, data in proc_map.items()
+        ),
+        key=lambda x: x["avg_cpu_percent"],
         reverse=True
     )[:TOP_PROCESSES_AGG]
+    print(len(top_procs))
 
     return {
         "start": samples[0]["timestamp"],
@@ -179,7 +194,7 @@ def main():
                 "data": safe_state,
                 "encoded": encode(safe_state)
             }
-            print("Hello")
+            # print("Hello")
             with open(DATA_FILE, "w") as f:
                 json.dump(payload, f, indent=2)
 
