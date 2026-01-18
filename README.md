@@ -1,20 +1,12 @@
-# 🧠 AI-Based Device Health Monitor
+## This is local PyQt5 APP whose releases will be listed soon
 
-## 📘 Overview
-**AI-Based Device Health Monitor** is a cross-platform Python application that analyzes and evaluates system health using **machine learning**. It processes both live metrics and user-supplied OS health reports (Windows, Linux, Android) to assess device performance, thermal stability, and storage efficiency. The tool provides a **Device Health Score** and offers actionable recommendations such as app optimization, cache cleanup, or battery-saving adjustments to maintain long-term system efficiency.
+# Collect data from your own system and let our web agents handle the rest !
 
-## 🧩 Core Features
-- 🌍 Multi-platform support (Windows, Linux, Android, macOS)  
-- ⚙️ Health assessment using parameters like CPU load, temperature trends, disk I/O, and power cycles  
-- 🤖 Integration with ML models for anomaly detection and predictive diagnostics  
-- 📊 Parsing and visualization of OS-generated reports (`JSON`, `CSV`, or `TXT`)  
-- 💡 Simple, modern interface for interactive insights  
 
-## ⚙️ Tech Stack
-- **Language:** Python  
-- **Frameworks/Libraries:** Flask / Streamlit (for UI), scikit-learn, pandas, matplotlib  
-- **ML Models:** Random Forest, Isolation Forest, Autoencoder  
-- **Data Input:** OS health reports (`msinfo32`, `lshw`, `adb bugreport`, etc.)  
+# Till then me and my mates are working hard to complete the project
 
-## 🚀 Goals
-To create a **smart, lightweight, and user-friendly diagnostic assistant** that bridges **AI-driven insights** with real-world device health monitoring — empowering users to understand and enhance their system’s performance.
+
+*Important notes:*
+*1. Before working make sure to set up venv in streamlit_app/streamlit-client directory and install requirements.txt*
+*2. Work while keeping the env in mind and do not work with code that assumes a static, pre-determined local db or api call (to something like local host)*
+*3. Consult with team members frequently in between changes to ensure everyone is on same page*
