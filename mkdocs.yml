@@ -1,0 +1,31 @@
+site_name: System Health AI – Desktop Client
+site_description: AI-powered system monitoring and diagnostics client built with PyQt5
+site_author: Mohammed Mehdi Hedayati
+
+theme:
+  name: material
+  features:
+    - navigation.instant
+    - navigation.tabs
+    - navigation.top
+    - search.highlight
+    - content.code.copy
+  palette:
+    scheme: slate
+
+nav:
+  - Home: index.md
+  - Overview: overview.md
+  - Architecture: architecture.md
+  - Setup:
+      - Installation: installation.md
+      - Authentication: authentication.md
+  - Core Features:
+      - System Monitoring: system-monitoring.md
+      - Reporting: reporting.md
+      - Supabase Integration: supabase.md
+  - AI:
+      - AI Chatbot & RAG: ai-integration.md
+      - OS Support: os-support.md
+  - Security: security.md
+  - Troubleshooting: troubleshooting.md
