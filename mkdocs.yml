@@ -29,3 +29,5 @@ nav:
       - OS Support: os-support.md
   - Security: security.md
   - Troubleshooting: troubleshooting.md
+
+site_url: https://MohdHedayati.github.io/AI-Based-Device-Health-Monitor/
