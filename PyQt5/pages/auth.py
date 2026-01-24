@@ -16,7 +16,7 @@ from PyQt5.QtGui import QFont, QColor
 from google_auth_oauthlib.flow import InstalledAppFlow
 import webbrowser
 
-from constants import TOKEN_FILE 
+from utils.constants import TOKEN_FILE 
 
 SCOPES = [
     "openid",
@@ -91,7 +91,7 @@ class LoginWindow(QWidget):
 
         try:
             # Create flow without local server
-            from constants import CLIENT_SECRETS_PATH
+            from utils.constants import CLIENT_SECRETS_PATH
             flow = InstalledAppFlow.from_client_secrets_file(
                 CLIENT_SECRETS_PATH,
                 scopes=SCOPES,
@@ -143,7 +143,7 @@ class LoginWindow(QWidget):
             with open(TOKEN_FILE, "w") as f:
                 json.dump(data_to_store, f)
             
-            from dashboard import DashboardWindow
+            from pages.dashboard import DashboardWindow
 
             user_name = profile_info.get("name") or profile_info.get("email", "User")
             self.dashboard = DashboardWindow(user_name=user_name)

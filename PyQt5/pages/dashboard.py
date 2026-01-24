@@ -12,7 +12,7 @@ from PyQt5.QtWidgets import (
 )
 from PyQt5.QtCore import Qt
 import subprocess
-from constants import TOKEN_FILE
+from utils.constants import TOKEN_FILE
 from PyQt5.QtGui import QFont, QColor, QPainter
 
 class MonitoringIndicator(QWidget):
@@ -169,7 +169,7 @@ class DashboardWindow(QWidget):
         self.setLayout(layout)
 
     def show_graphs(self):
-        from graphs import GraphsWindow
+        from pages.graphs import GraphsWindow
         self.graphs_window = GraphsWindow(self.user_name, parent_dashboard=self)
         self.graphs_window.show()
         self.hide()
@@ -196,7 +196,7 @@ class DashboardWindow(QWidget):
             self.indicator.close()
             self.indicator = None
         # After logout, close dashboard and reopen login window
-        from auth import LoginWindow
+        from pages.auth import LoginWindow
 
         self.login_window = LoginWindow()
         self.login_window.show()
@@ -204,7 +204,7 @@ class DashboardWindow(QWidget):
 
     def handle_upload(self):
         try:
-            from uploader import upload
+            from utils.uploader import upload
             upload()
             QMessageBox.information(self, "Success", "Data uploaded successfully.")
         except Exception as e:

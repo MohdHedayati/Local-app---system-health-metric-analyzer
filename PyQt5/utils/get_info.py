@@ -5,7 +5,7 @@ import time
 import json
 import os
 import collections
-from constants import DATA_FILE
+from utils.constants import DATA_FILE
 
 # =======================
 # Configuration

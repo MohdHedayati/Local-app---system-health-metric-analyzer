@@ -6,7 +6,7 @@ from PyQt5.QtGui import QPainter, QPen, QColor, QFont, QBrush
 from PyQt5.QtCore import Qt, QRectF
 import json
 import os
-from constants import DATA_FILE
+from utils.constants import DATA_FILE
 
 class LineGraph(QWidget):
     def __init__(self, title, datasets, y_label="", y_max=None):
@@ -292,7 +292,7 @@ class GraphsWindow(QWidget):
                 with open(DATA_FILE, "r") as f:
                     content = json.load(f)
                     if isinstance(content, dict):
-                        raw = content.get("data", {}).get("raw_samples", [])
+                        raw = content.get("data", {}).get("recent_samples", [])
                     else:
                         raw = []
                         

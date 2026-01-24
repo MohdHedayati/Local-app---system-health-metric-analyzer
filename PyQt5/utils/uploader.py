@@ -1,8 +1,8 @@
 from supabase import create_client
-from packager import build_payload
-from path_helper import resource_path
+from utils.packager import build_payload
+from utils.path_helper import resource_path
 import json
-from constants import SECRETS_PATH
+from utils.constants import SECRETS_PATH
 try:
     with open(SECRETS_PATH, 'r') as file:
         secrets = json.load(file)

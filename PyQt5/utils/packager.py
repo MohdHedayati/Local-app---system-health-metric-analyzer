@@ -4,7 +4,7 @@ import platform
 import os
 import socket
 from datetime import datetime
-from constants import TOKEN_FILE, DATA_FILE as HISTORY_FILE
+from utils.constants import TOKEN_FILE, DATA_FILE as HISTORY_FILE
 
 def load_email():
     with open(TOKEN_FILE, "r") as f:

@@ -1,4 +1,4 @@
-from path_helper import resource_path, writable_path
+from utils.path_helper import resource_path, writable_path
 # Use writable path for runtime data (history) so bundled exe can write to it.
 TOKEN_FILE = writable_path("data/token.json")
 DATA_FILE = writable_path("data/history.json")
