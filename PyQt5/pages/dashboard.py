@@ -10,10 +10,10 @@ from PyQt5.QtWidgets import (
     QMessageBox,
     QApplication,
 )
-from PyQt5.QtCore import Qt
+from PyQt5.QtCore import QUrl,Qt
 import subprocess
 from utils.constants import TOKEN_FILE
-from PyQt5.QtGui import QFont, QColor, QPainter
+from PyQt5.QtGui import QFont, QColor, QPainter,QDesktopServices
 
 class MonitoringIndicator(QWidget):
     def __init__(self):
@@ -151,7 +151,26 @@ class DashboardWindow(QWidget):
                 border-color: #3700b3;
             }
         """)
+        # Create the Website Button
+        self.site_btn = QPushButton("Visit Our Site !")
+        self.site_btn.setCursor(Qt.PointingHandCursor)
+        self.site_btn.setStyleSheet("""
+            QPushButton {
+                background-color: #FFD700; /* Bright Golden */
+                border: 2px solid #FFD700;
+                color: #000000; /* Black text for high contrast on gold */
+            }
+            QPushButton:hover {
+                background-color: #FFC107; /* Slightly darker amber/gold */
+                border-color: #FFC107;
+            }
+            QPushButton:pressed {
+                background-color: #B8860B; /* Darker golden rod when clicked */
+            }
+        """)
 
+        # Connect to browser opener
+        self.site_btn.clicked.connect(lambda: QDesktopServices.openUrl(QUrl("https://ie649fquxe8tbyqm2id44b.streamlit.app/")))
         self.start_btn.clicked.connect(self.start_monitoring)
         self.stop_btn.clicked.connect(self.stop_monitoring)
         self.upload_btn.clicked.connect(self.handle_upload)
@@ -163,6 +182,7 @@ class DashboardWindow(QWidget):
         layout.addWidget(self.stop_btn)
         layout.addWidget(self.upload_btn)
         layout.addWidget(self.graphs_btn)
+        layout.addWidget(self.site_btn) # <--- Added here
         layout.addSpacing(20)
         layout.addWidget(self.logout_btn)
 

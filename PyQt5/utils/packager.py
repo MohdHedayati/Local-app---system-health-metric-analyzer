@@ -19,26 +19,40 @@ def generate_secret_id():
         f.write(secret_id)
     return secret_id
 
+import torch
+from ml_engine.scripts.analytic_engine import SystemAnalyticEngine
+
+# Initialize engine once to save VRAM; or init inside build_payload if preferred
+# Note: Ensure models are already trained and in /models/
+engine = SystemAnalyticEngine()
+
 def build_payload():
     with open(HISTORY_FILE, "r") as f:
         history = json.load(f)
 
+    # 1. DATA SUFFICIENCY CHECK
+    recent_count = len(history.get("data", {}).get("recent_samples", []))
+    agg_count = len(history.get("data", {}).get("aggregates", []))
+
+    if recent_count < 50 or agg_count < 5:
+        # This string will appear in your PyQt QMessageBox
+        raise ValueError(
+            f"Insufficient data (Samples: {recent_count}/50, Aggs: {agg_count}/5). "
+            "Please let monitoring continue for 30 mins minimum before upload."
+        )
+
+    # 2. RUN ANALYTIC ENGINE
+    # The engine expects a JSON string, so we dump the history dict
+    analysis_summary = engine.analyze_packet(json.dumps(history))
+
+    # 3. CONSTRUCT FINAL PAYLOAD
     return {
-        # maps to user_email
         "user_email": load_email(),
-
-        # maps to raw_data
         "raw_data": history,
-
-        # metadata (stored directly in table)
-        "device_name": socket.gethostname(),  # safer than os.getlogin()
+        "summary": analysis_summary, # The AI results & 15 forecast samples
+        "device_name": socket.gethostname(),
         "os": platform.system(),
-
-        # optional but useful
         "source": "desktop_app",
-
-        # status handled server-side ideally,
-        # but safe to set explicitly
         "status": "pending"
     }
 
