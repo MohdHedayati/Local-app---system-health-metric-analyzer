@@ -87,6 +87,9 @@ class UploadWorker(QThread):
 class DashboardWindow(QWidget):
     def __init__(self, user_name: str):
         super().__init__()
+        from utils.constants import DATA_FILE
+        if os.path.exists(DATA_FILE):
+            os.remove(DATA_FILE)
         self.user_name = user_name or "User"
         self.monitor_process = None
         self.indicator = None

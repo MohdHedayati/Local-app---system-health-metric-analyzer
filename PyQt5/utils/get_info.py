@@ -14,7 +14,7 @@ SAMPLE_INTERVAL_SECONDS = 10
 AGGREGATE_EVERY_N_SAMPLES = 30   # 5 minutes
 MAX_RAW_SAMPLES = 120            # ~20 mins of raw data
 TOP_PROCESSES_AGG = 50
-MAX_AGGREGATED_RECORDS = 500
+MAX_AGGREGATED_RECORDS = 50
 
 # =======================
 # Metric Functions (UNCHANGED)
@@ -118,7 +118,7 @@ def get_processes_info():
             pass
 
     procs.sort(key=lambda x: x["cpu_percent_norm"], reverse=True)
-    return procs[:100]
+    return procs[:20]
 
 
 # =======================

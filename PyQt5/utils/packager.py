@@ -27,6 +27,8 @@ from ml_engine.scripts.analytic_engine import SystemAnalyticEngine
 engine = SystemAnalyticEngine()
 
 def build_payload():
+    if not os.path.exists(HISTORY_FILE):
+        raise FileNotFoundError("No monitoring data found. Please run monitoring before upload.")
     with open(HISTORY_FILE, "r") as f:
         history = json.load(f)
 
