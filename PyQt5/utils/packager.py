@@ -38,7 +38,7 @@ def build_payload():
         # This string will appear in your PyQt QMessageBox
         raise ValueError(
             f"Insufficient data (Samples: {recent_count}/50, Aggs: {agg_count}/5). "
-            "Please let monitoring continue for 30 mins minimum before upload."
+            f"Please let monitoring continue for {(5-agg_count)*5} mins minimum before upload."
         )
 
     # 2. RUN ANALYTIC ENGINE

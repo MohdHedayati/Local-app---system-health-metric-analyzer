@@ -10,7 +10,7 @@ from PyQt5.QtWidgets import (
     QMessageBox,
     QApplication,
 )
-from PyQt5.QtCore import QUrl,Qt
+from PyQt5.QtCore import QUrl,Qt, QThread, pyqtSignal
 import subprocess
 from utils.constants import TOKEN_FILE
 from PyQt5.QtGui import QFont, QColor, QPainter,QDesktopServices
@@ -33,6 +33,53 @@ class MonitoringIndicator(QWidget):
         painter.setBrush(QColor("#00ff00")) # Bright Green
         painter.setPen(Qt.NoPen)
         painter.drawEllipse(0, 0, 30, 30)
+
+
+class UploadIndicator(QWidget):
+    """Small centered widget that indicates an upload is in progress."""
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        self.setWindowFlags(Qt.WindowStaysOnTopHint | Qt.FramelessWindowHint | Qt.Tool)
+        self.setAttribute(Qt.WA_TranslucentBackground)
+        self.setFixedSize(220, 80)
+
+        # center on parent if provided, otherwise center of primary screen
+        if parent:
+            parent_rect = parent.geometry()
+            x = parent_rect.x() + (parent_rect.width() - self.width()) // 2
+            y = parent_rect.y() + (parent_rect.height() - self.height()) // 2
+            self.move(x, y)
+        else:
+            desktop = QApplication.desktop()
+            screen_rect = desktop.screenGeometry(desktop.primaryScreen())
+            x = (screen_rect.width() - self.width()) // 2
+            y = (screen_rect.height() - self.height()) // 2
+            self.move(x, y)
+
+        # Simple label inside
+        self.label = QLabel("Uploading...", self)
+        self.label.setAlignment(Qt.AlignCenter)
+        self.label.setGeometry(0, 0, self.width(), self.height())
+        f = QFont()
+        f.setPointSize(12)
+        f.setBold(True)
+        self.label.setFont(f)
+
+
+class UploadWorker(QThread):
+    """Run the uploader in a separate thread and emit signals on finish."""
+    success = pyqtSignal()
+    failure = pyqtSignal(str)
+
+    def run(self):
+        try:
+            # import inside thread to avoid blocking main thread import issues
+            from utils.uploader import upload
+            upload()
+            self.success.emit()
+        except Exception as e:
+            # send stringified exception back to UI
+            self.failure.emit(str(e))
 
 
 
@@ -223,13 +270,38 @@ class DashboardWindow(QWidget):
         self.close()
 
     def handle_upload(self):
-        try:
-            from utils.uploader import upload
-            upload()
+        # Prevent multiple simultaneous uploads
+        if getattr(self, "upload_worker", None) and self.upload_worker.isRunning():
+            QMessageBox.information(self, "Info", "Upload already in progress.")
+            return
+
+        # Create and show the upload indicator (centered on this dashboard)
+        self.upload_widget = UploadIndicator(parent=self)
+        self.upload_widget.show()
+
+        # Disable upload button while running
+        self.upload_btn.setEnabled(False)
+
+        # Start worker thread to perform upload
+        self.upload_worker = UploadWorker()
+
+        def on_success():
+            self.upload_widget.close()
+            self.upload_btn.setEnabled(True)
             QMessageBox.information(self, "Success", "Data uploaded successfully.")
-        except Exception as e:
-            QMessageBox.critical(self, "Upload Failed", str(e))
+
+        def on_failure(msg):
+            self.upload_widget.close()
+            self.upload_btn.setEnabled(True)
+            QMessageBox.critical(self, "Upload Failed", msg)
+
+        self.upload_worker.success.connect(on_success)
+        self.upload_worker.failure.connect(on_failure)
+        self.upload_worker.start()
     def start_monitoring(self):
+        from utils.constants import DATA_FILE
+        if os.path.exists(DATA_FILE):
+            os.remove(DATA_FILE)
         if self.monitor_process and self.monitor_process.poll() is None:
             QMessageBox.information(self, "Info", "Monitoring already running.")
             return
@@ -261,10 +333,10 @@ class DashboardWindow(QWidget):
             if self.indicator:
                 self.indicator.close()
                 self.indicator = None
-                
-            file_path = "data/history.json"
-            if os.path.exists(file_path):
-                os.remove(file_path)
+            
+            from utils.constants import DATA_FILE
+            if os.path.exists(DATA_FILE):
+                os.remove(DATA_FILE)
             QMessageBox.information(self, "Stopped", "Monitoring stopped.")
         else:
             QMessageBox.information(self, "Info", "Monitoring not running.")

@@ -73,3 +73,33 @@ def generate_cpu_mem_complex(n_samples=1000, anomaly_type="normal"):
         data.append([cpu, mem, freq])
         labels.append(1 if anomaly_type != "normal" else 0)
     return data, labels
+
+# --- TEMPERATURE DATA ---
+def generate_temperature_data(n_samples=1000, anomaly_type="normal"):
+    """
+    Produces a single-feature temperature (average over sensors) per sample.
+    Types:
+    - 'normal' : temperatures 35-65C with small jitter
+    - 'overheat' : sustained high temperatures 85-110C (thermal events)
+    - 'spike' : sudden short spike to 90-100 then back
+    """
+    data = []
+    labels = []
+    base = 45.0
+    for i in range(n_samples):
+        if anomaly_type == "normal":
+            val = np.clip(np.random.normal(base, 4.0), 20, 80)
+        elif anomaly_type == "overheat":
+            val = np.clip(np.random.normal(95, 6.0), 60, 120)
+        elif anomaly_type == "spike":
+            if i % 50 == 0:
+                val = np.clip(np.random.uniform(90, 105), 60, 120)
+            else:
+                val = np.clip(np.random.normal(base, 4.0), 20, 80)
+        else:
+            val = np.clip(np.random.normal(base, 4.0), 20, 80)
+
+        data.append([val])
+        labels.append(1 if anomaly_type != "normal" else 0)
+
+    return data, labels
