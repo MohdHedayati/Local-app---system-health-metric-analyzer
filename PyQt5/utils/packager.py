@@ -19,12 +19,36 @@ def generate_secret_id():
         f.write(secret_id)
     return secret_id
 
-import torch
-from ml_engine.scripts.analytic_engine import SystemAnalyticEngine
+import requests
+import gzip
+import json
 
-# Initialize engine once to save VRAM; or init inside build_payload if preferred
-# Note: Ensure models are already trained and in /models/
-engine = SystemAnalyticEngine()
+def get_cloud_analysis(history_dict):
+    # Your Render URL looks like: https://my-app.onrender.com/analyze
+    API_URL = "https://ml-engine-backend.onrender.com/analyze"
+    
+    try:
+        json_str = json.dumps(history_dict)
+        compressed_payload = gzip.compress(json_str.encode("utf-8"))
+        
+        # We increase timeout to 120s to account for the "Cold Start" spin-up
+        response = requests.post(
+            API_URL,
+            data=compressed_payload,
+            headers={
+                "Content-Encoding": "gzip",
+                "Content-Type": "application/json"
+            },
+            timeout=120 
+        )
+        response.raise_for_status()
+        return response.json()
+        
+    except requests.exceptions.Timeout:
+        return {"error": "Server is taking too long to wake up. Please try again in 30 seconds."}
+    except Exception as e:
+        return {"error": f"Connection failed: {str(e)}"}
+
 
 def build_payload():
     if not os.path.exists(HISTORY_FILE):
@@ -45,7 +69,7 @@ def build_payload():
 
     # 2. RUN ANALYTIC ENGINE
     # The engine expects a JSON string, so we dump the history dict
-    analysis_summary = engine.analyze_packet(json.dumps(history))
+    analysis_summary = get_cloud_analysis(history)
 
     # 3. CONSTRUCT FINAL PAYLOAD
     return {
