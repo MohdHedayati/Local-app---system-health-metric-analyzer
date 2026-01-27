@@ -1,5 +1,5 @@
-site_name: System Health AI – Desktop Client
-site_description: AI-powered system monitoring and diagnostics client built with PyQt5
+site_name: AI-Based Device Health Monitor
+site_description: A distributed intelligent diagnostics platform combining Generative AI, Agentic AI, Machine Learning, RAG, and Full-Stack System Monitoring
 site_author: Mohammed Mehdi Hedayati
 
 theme:
@@ -8,26 +8,61 @@ theme:
     - navigation.instant
     - navigation.tabs
     - navigation.top
+    - navigation.tracking
     - search.highlight
     - content.code.copy
   palette:
-    scheme: slate
+    - scheme: default
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to dark mode
+    - scheme: slate
+      toggle:
+        icon: material/weather-night
+        name: Switch to light mode
 
 nav:
   - Home: index.md
   - Overview: overview.md
-  - Architecture: architecture.md
-  - Setup:
-      - Installation: installation.md
-      - Authentication: authentication.md
-  - Core Features:
-      - System Monitoring: system-monitoring.md
-      - Reporting: reporting.md
-      - Supabase Integration: supabase.md
-  - AI:
-      - AI Chatbot & RAG: ai-integration.md
-      - OS Support: os-support.md
-  - Security: security.md
-  - Troubleshooting: troubleshooting.md
+  - System Architecture: architecture.md
+
+  - Desktop System Agent (PyQt5):
+      - Introduction: desktop/intro.md
+      - Authentication (Google OAuth): desktop/auth.md
+      - System Metrics Engine (psutil): desktop/metrics.md
+      - Local ML Inference: desktop/ml.md
+      - Report Generation: desktop/reports.md
+
+  - Web Dashboard (Streamlit):
+      - Introduction: web/intro.md
+      - Authentication (Google OAuth): web/auth.md
+      - AI Chatbot Interface: web/chatbot.md
+      - Supabase Backend (CRUD): web/supabase.md
+      - Frontend & UX Design: web/frontend.md
+
+  - AI & ML Systems:
+      - Generative AI Pipeline: ai/generative.md
+      - Agentic AI Engine: ai/agentic.md
+      - RAG & Vector Database: ai/rag.md
+      - ML Encoders & Neural Networks: ai/ml.md
+
+  - Backend Services:
+      - Supabase Architecture: backend/supabase.md
+      - Data Schema: backend/schema.md
+      - API & Security: backend/api.md
+
+  - Project Journey:
+      - Timeline: journey/timeline.md
+      - Iterations & Improvements: journey/iterations.md
+      - Learnings: journey/learnings.md
+
+  - Security & Privacy: security.md
+  - Future Scope: future.md
+  - Acknowledgements: acknowledgements.md
 
 site_url: https://MohdHedayati.github.io/AI-Based-Device-Health-Monitor/
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/MohdHedayati/AI-Based-Device-Health-Monitor
