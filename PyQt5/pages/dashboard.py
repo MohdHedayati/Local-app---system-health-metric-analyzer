@@ -13,7 +13,7 @@ from PyQt5.QtWidgets import (
 from PyQt5.QtCore import QUrl,Qt, QThread, pyqtSignal
 import subprocess
 from utils.constants import TOKEN_FILE
-from PyQt5.QtGui import QFont, QColor, QPainter,QDesktopServices
+from PyQt5.QtGui import QFont, QColor, QPainter,QDesktopServices, QIcon
 
 class MonitoringIndicator(QWidget):
     def __init__(self):
@@ -93,6 +93,10 @@ class DashboardWindow(QWidget):
         self.user_name = user_name or "User"
         self.monitor_process = None
         self.indicator = None
+
+        # icon
+        from utils.constants import ICON_PATH
+        self.setWindowIcon(QIcon(ICON_PATH))
 
         self.setWindowTitle("Device Health Dashboard")
         self.setFixedSize(1200, 900)

@@ -11,7 +11,7 @@ from PyQt5.QtWidgets import (
     QInputDialog,
 )
 from PyQt5.QtCore import Qt
-from PyQt5.QtGui import QFont, QColor
+from PyQt5.QtGui import QFont, QColor, QIcon
 
 from google_auth_oauthlib.flow import InstalledAppFlow
 import webbrowser
@@ -30,6 +30,10 @@ class LoginWindow(QWidget):
         super().__init__()
         self.setWindowTitle("Login with Google")
         self.setFixedSize(600, 450) # Increased size
+
+         # icon
+        from utils.constants import ICON_PATH
+        self.setWindowIcon(QIcon(ICON_PATH))
 
         # Apply Dark Mode Stylesheet
         self.setStyleSheet("""
