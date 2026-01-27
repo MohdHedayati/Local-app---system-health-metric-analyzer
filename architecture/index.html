@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="AI-powered system monitoring and diagnostics client built with PyQt5">
+        <meta name="description" content="A distributed intelligent diagnostics platform combining Generative AI, Agentic AI, Machine Learning, RAG, and Full-Stack System Monitoring">
       
       
         <meta name="author" content="Mohammed Mehdi Hedayati">
@@ -15,10 +15,10 @@
         <link rel="canonical" href="https://MohdHedayati.github.io/AI-Based-Device-Health-Monitor/architecture/">
       
       
-        <link rel="prev" href="..">
+        <link rel="prev" href="../overview/">
       
       
-        <link rel="next" href="../installation/">
+        <link rel="next" href="../desktop/intro/">
       
       
       <link rel="icon" href="../assets/images/favicon.png">
@@ -26,7 +26,7 @@
     
     
       
-        <title>Architecture - System Health AI – Desktop Client</title>
+        <title>System Architecture - AI-Based Device Health Monitor</title>
       
     
     
@@ -64,10 +64,12 @@
   
     
     
+      
     
     
     
-    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo">
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
   
     
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
@@ -90,7 +92,7 @@
 
 <header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href=".." title="System Health AI – Desktop Client" class="md-header__button md-logo" aria-label="System Health AI – Desktop Client" data-md-component="logo">
+    <a href=".." title="AI-Based Device Health Monitor" class="md-header__button md-logo" aria-label="AI-Based Device Health Monitor" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -104,13 +106,13 @@
       <div class="md-header__ellipsis">
         <div class="md-header__topic">
           <span class="md-ellipsis">
-            System Health AI – Desktop Client
+            AI-Based Device Health Monitor
           </span>
         </div>
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Architecture
+              System Architecture
             
           </span>
         </div>
@@ -118,7 +120,33 @@
     </div>
     
       
+        <form class="md-header__option" data-md-component="palette">
+  
     
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
     
     
     
@@ -202,7 +230,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../overview.md" class="md-tabs__link">
+      <a href="../overview/" class="md-tabs__link">
         
   
   
@@ -229,7 +257,7 @@
   
     
   
-  Architecture
+  System Architecture
 
       </a>
     </li>
@@ -244,11 +272,11 @@
     
     
       <li class="md-tabs__item">
-        <a href="../installation/" class="md-tabs__link">
+        <a href="../desktop/intro/" class="md-tabs__link">
           
   
   
-  Setup
+  Desktop System Agent (PyQt5)
 
         </a>
       </li>
@@ -264,11 +292,11 @@
     
     
       <li class="md-tabs__item">
-        <a href="../system-monitoring/" class="md-tabs__link">
+        <a href="../web/intro/" class="md-tabs__link">
           
   
   
-  Core Features
+  Web Dashboard (Streamlit)
 
         </a>
       </li>
@@ -284,11 +312,51 @@
     
     
       <li class="md-tabs__item">
-        <a href="../ai-integration/" class="md-tabs__link">
+        <a href="../ai/generative/" class="md-tabs__link">
           
   
   
-  AI
+  AI & ML Systems
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../backend/supabase/" class="md-tabs__link">
+          
+  
+  
+  Backend Services
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../journey/timeline/" class="md-tabs__link">
+          
+  
+  
+  Project Journey
 
         </a>
       </li>
@@ -302,13 +370,13 @@
   
   
     <li class="md-tabs__item">
-      <a href="../security.md" class="md-tabs__link">
+      <a href="../security/" class="md-tabs__link">
         
   
   
     
   
-  Security
+  Security & Privacy
 
       </a>
     </li>
@@ -321,13 +389,32 @@
   
   
     <li class="md-tabs__item">
-      <a href="../troubleshooting.md" class="md-tabs__link">
+      <a href="../future/" class="md-tabs__link">
         
   
   
     
   
-  Troubleshooting
+  Future Scope
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../acknowledgements/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Acknowledgements
 
       </a>
     </li>
@@ -356,13 +443,13 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href=".." title="System Health AI – Desktop Client" class="md-nav__button md-logo" aria-label="System Health AI – Desktop Client" data-md-component="logo">
+    <a href=".." title="AI-Based Device Health Monitor" class="md-nav__button md-logo" aria-label="AI-Based Device Health Monitor" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
 
     </a>
-    System Health AI – Desktop Client
+    AI-Based Device Health Monitor
   </label>
   
   <ul class="md-nav__list" data-md-scrollfix>
@@ -396,7 +483,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../overview.md" class="md-nav__link">
+      <a href="../overview/" class="md-nav__link">
         
   
   
@@ -432,7 +519,7 @@
   
   
   <span class="md-ellipsis">
-    Architecture
+    System Architecture
     
   </span>
   
@@ -445,7 +532,7 @@
   
   
   <span class="md-ellipsis">
-    Architecture
+    System Architecture
     
   </span>
   
@@ -468,46 +555,56 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#high-level-flow" class="md-nav__link">
+  <a href="#high-level-architecture" class="md-nav__link">
     <span class="md-ellipsis">
-      High-Level Flow
+      High-Level Architecture
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#components" class="md-nav__link">
+  <a href="#architectural-principles" class="md-nav__link">
     <span class="md-ellipsis">
-      Components
+      Architectural Principles
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Components">
+    <nav class="md-nav" aria-label="Architectural Principles">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#desktop-client-pyqt5" class="md-nav__link">
+  <a href="#1-separation-of-concerns" class="md-nav__link">
     <span class="md-ellipsis">
-      Desktop Client (PyQt5)
+      1. Separation of Concerns
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#backend-supabase" class="md-nav__link">
+  <a href="#2-dual-application-design" class="md-nav__link">
     <span class="md-ellipsis">
-      Backend (Supabase)
+      2. Dual Application Design
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Dual Application Design">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#desktop-system-agent-pyqt5" class="md-nav__link">
+    <span class="md-ellipsis">
+      Desktop System Agent (PyQt5)
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#ai-layer" class="md-nav__link">
+  <a href="#web-dashboard-streamlit" class="md-nav__link">
     <span class="md-ellipsis">
-      AI Layer
+      Web Dashboard (Streamlit)
     </span>
   </a>
   
@@ -515,6 +612,140 @@
         
       </ul>
     </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#data-flow-pipeline" class="md-nav__link">
+    <span class="md-ellipsis">
+      Data Flow Pipeline
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Data Flow Pipeline">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#step-1-metric-collection-desktop" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 1 — Metric Collection (Desktop)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-2-local-ml-inference" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 2 — Local ML Inference
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-3-agentic-intelligence-engine" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 3 — Agentic Intelligence Engine
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-4-structured-report-generation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 4 — Structured Report Generation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-5-secure-cloud-synchronization" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 5 — Secure Cloud Synchronization
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-6-ai-reasoning-rag" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 6 — AI Reasoning &amp; RAG
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ai-system-design" class="md-nav__link">
+    <span class="md-ellipsis">
+      AI System Design
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="AI System Design">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#generative-ai" class="md-nav__link">
+    <span class="md-ellipsis">
+      Generative AI
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#agentic-ai" class="md-nav__link">
+    <span class="md-ellipsis">
+      Agentic AI
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#machine-learning-layer" class="md-nav__link">
+    <span class="md-ellipsis">
+      Machine Learning Layer
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#why-this-architecture-matters" class="md-nav__link">
+    <span class="md-ellipsis">
+      Why This Architecture Matters
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#system-capabilities-summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      System Capabilities Summary
+    </span>
+  </a>
   
 </li>
       
@@ -552,7 +783,7 @@
   
   
   <span class="md-ellipsis">
-    Setup
+    Desktop System Agent (PyQt5)
     
   </span>
   
@@ -563,7 +794,7 @@
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_4">
             <span class="md-nav__icon md-icon"></span>
-            Setup
+            Desktop System Agent (PyQt5)
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -574,12 +805,12 @@
   
   
     <li class="md-nav__item">
-      <a href="../installation/" class="md-nav__link">
+      <a href="../desktop/intro/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    Installation
+    Introduction
     
   </span>
   
@@ -597,12 +828,81 @@
   
   
     <li class="md-nav__item">
-      <a href="../authentication.md" class="md-nav__link">
+      <a href="../desktop/auth/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    Authentication
+    Authentication (Google OAuth)
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../desktop/metrics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    System Metrics Engine (psutil)
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../desktop/ml/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Local ML Inference
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../desktop/reports/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Report Generation
     
   </span>
   
@@ -646,7 +946,7 @@
   
   
   <span class="md-ellipsis">
-    Core Features
+    Web Dashboard (Streamlit)
     
   </span>
   
@@ -657,7 +957,7 @@
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_5">
             <span class="md-nav__icon md-icon"></span>
-            Core Features
+            Web Dashboard (Streamlit)
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -668,12 +968,12 @@
   
   
     <li class="md-nav__item">
-      <a href="../system-monitoring/" class="md-nav__link">
+      <a href="../web/intro/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    System Monitoring
+    Introduction
     
   </span>
   
@@ -691,12 +991,12 @@
   
   
     <li class="md-nav__item">
-      <a href="../reporting.md" class="md-nav__link">
+      <a href="../web/auth/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    Reporting
+    Authentication (Google OAuth)
     
   </span>
   
@@ -714,12 +1014,58 @@
   
   
     <li class="md-nav__item">
-      <a href="../supabase.md" class="md-nav__link">
+      <a href="../web/chatbot/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    Supabase Integration
+    AI Chatbot Interface
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../web/supabase/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Supabase Backend (CRUD)
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../web/frontend/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Frontend & UX Design
     
   </span>
   
@@ -763,7 +1109,7 @@
   
   
   <span class="md-ellipsis">
-    AI
+    AI & ML Systems
     
   </span>
   
@@ -774,7 +1120,7 @@
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_6">
             <span class="md-nav__icon md-icon"></span>
-            AI
+            AI & ML Systems
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -785,12 +1131,12 @@
   
   
     <li class="md-nav__item">
-      <a href="../ai-integration/" class="md-nav__link">
+      <a href="../ai/generative/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    AI Chatbot & RAG
+    Generative AI Pipeline
     
   </span>
   
@@ -808,12 +1154,292 @@
   
   
     <li class="md-nav__item">
-      <a href="../os-support.md" class="md-nav__link">
+      <a href="../ai/agentic/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    OS Support
+    Agentic AI Engine
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ai/rag/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    RAG & Vector Database
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ai/ml/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    ML Encoders & Neural Networks
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Backend Services
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            Backend Services
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../backend/supabase/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Supabase Architecture
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../backend/schema/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Data Schema
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../backend/api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    API & Security
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Project Journey
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            Project Journey
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../journey/timeline/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Timeline
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../journey/iterations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Iterations & Improvements
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../journey/learnings/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Learnings
     
   </span>
   
@@ -838,12 +1464,12 @@
   
   
     <li class="md-nav__item">
-      <a href="../security.md" class="md-nav__link">
+      <a href="../security/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    Security
+    Security & Privacy
     
   </span>
   
@@ -860,12 +1486,34 @@
   
   
     <li class="md-nav__item">
-      <a href="../troubleshooting.md" class="md-nav__link">
+      <a href="../future/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    Troubleshooting
+    Future Scope
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../acknowledgements/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Acknowledgements
     
   </span>
   
@@ -902,46 +1550,56 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#high-level-flow" class="md-nav__link">
+  <a href="#high-level-architecture" class="md-nav__link">
     <span class="md-ellipsis">
-      High-Level Flow
+      High-Level Architecture
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#components" class="md-nav__link">
+  <a href="#architectural-principles" class="md-nav__link">
     <span class="md-ellipsis">
-      Components
+      Architectural Principles
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Components">
+    <nav class="md-nav" aria-label="Architectural Principles">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#desktop-client-pyqt5" class="md-nav__link">
+  <a href="#1-separation-of-concerns" class="md-nav__link">
     <span class="md-ellipsis">
-      Desktop Client (PyQt5)
+      1. Separation of Concerns
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#backend-supabase" class="md-nav__link">
+  <a href="#2-dual-application-design" class="md-nav__link">
     <span class="md-ellipsis">
-      Backend (Supabase)
+      2. Dual Application Design
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Dual Application Design">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#desktop-system-agent-pyqt5" class="md-nav__link">
+    <span class="md-ellipsis">
+      Desktop System Agent (PyQt5)
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#ai-layer" class="md-nav__link">
+  <a href="#web-dashboard-streamlit" class="md-nav__link">
     <span class="md-ellipsis">
-      AI Layer
+      Web Dashboard (Streamlit)
     </span>
   </a>
   
@@ -949,6 +1607,140 @@
         
       </ul>
     </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#data-flow-pipeline" class="md-nav__link">
+    <span class="md-ellipsis">
+      Data Flow Pipeline
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Data Flow Pipeline">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#step-1-metric-collection-desktop" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 1 — Metric Collection (Desktop)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-2-local-ml-inference" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 2 — Local ML Inference
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-3-agentic-intelligence-engine" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 3 — Agentic Intelligence Engine
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-4-structured-report-generation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 4 — Structured Report Generation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-5-secure-cloud-synchronization" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 5 — Secure Cloud Synchronization
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-6-ai-reasoning-rag" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 6 — AI Reasoning &amp; RAG
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ai-system-design" class="md-nav__link">
+    <span class="md-ellipsis">
+      AI System Design
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="AI System Design">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#generative-ai" class="md-nav__link">
+    <span class="md-ellipsis">
+      Generative AI
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#agentic-ai" class="md-nav__link">
+    <span class="md-ellipsis">
+      Agentic AI
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#machine-learning-layer" class="md-nav__link">
+    <span class="md-ellipsis">
+      Machine Learning Layer
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#why-this-architecture-matters" class="md-nav__link">
+    <span class="md-ellipsis">
+      Why This Architecture Matters
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#system-capabilities-summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      System Capabilities Summary
+    </span>
+  </a>
   
 </li>
       
@@ -969,35 +1761,251 @@
 
 
 <h1 id="system-architecture">System Architecture</h1>
-<h2 id="high-level-flow">High-Level Flow</h2>
-<ol>
-<li>User authenticates via Google OAuth in the desktop app</li>
-<li>System metrics are collected using <code>psutil</code></li>
-<li>A structured health report is generated locally</li>
-<li>Report is uploaded securely to Supabase</li>
-<li>User logs into the web dashboard to view reports</li>
-<li>AI chatbot uses RAG to answer system-related questions</li>
-</ol>
-<h2 id="components">Components</h2>
-<h3 id="desktop-client-pyqt5">Desktop Client (PyQt5)</h3>
+<p>This project implements a <strong>distributed intelligent diagnostics platform</strong> combining system-level monitoring, machine learning, agentic AI, retrieval-augmented generation (RAG), and full-stack web technologies.</p>
+<p>The system is architected into <strong>two tightly coupled applications</strong>:</p>
 <ul>
-<li>UI and user interaction</li>
-<li>OAuth authentication</li>
-<li>Local data collection</li>
-<li>Report generation</li>
+<li><strong>Desktop System Agent (PyQt5)</strong> – responsible for hardware-level data collection, ML inference, and secure reporting.</li>
+<li><strong>Web Dashboard (Streamlit)</strong> – responsible for visualization, AI-powered diagnostics, and cloud-based analytics.</li>
 </ul>
-<h3 id="backend-supabase">Backend (Supabase)</h3>
+<hr />
+<h2 id="high-level-architecture">High-Level Architecture</h2>
+<p>┌──────────────────────────┐
+│ User Machine │
+│ │
+│ ┌────────────────────┐ │
+│ │ PyQt5 Desktop App │ │
+│ │ │ │
+│ │ - Google OAuth │ │
+│ │ - psutil Metrics │ │
+│ │ - Local ML Engine │ │
+│ │ - Report Builder │ │
+│ └──────────┬─────────┘ │
+│ │ │
+└─────────────┼─────────────┘
+│ Secure Upload
+▼
+┌───────────────┐
+│ Supabase │
+│ Backend │
+│ │
+│ - Auth Mapping│
+│ - Reports DB │
+│ - Chat Storage│
+└───────┬───────┘
+│
+▼
+┌──────────────────────┐
+│ Streamlit Web App │
+│ │
+│ - Google OAuth │
+│ - Dashboard UI │
+│ - AI Chatbot │
+│ - RAG Engine │
+│ - Agentic AI │
+└──────────┬───────────┘
+│
+▼
+Intelligent Diagnostics</p>
+<hr />
+<h2 id="architectural-principles">Architectural Principles</h2>
+<h3 id="1-separation-of-concerns">1. Separation of Concerns</h3>
+<p>The system separates responsibilities between:</p>
 <ul>
-<li>User authentication mapping</li>
+<li><strong>Local System Intelligence</strong></li>
+<li><strong>Cloud-based AI Reasoning</strong></li>
+<li><strong>Persistent Storage &amp; Authentication</strong></li>
+</ul>
+<p>This ensures:
+- Security
+- Scalability
+- Platform independence
+- Modularity</p>
+<hr />
+<h3 id="2-dual-application-design">2. Dual Application Design</h3>
+<h4 id="desktop-system-agent-pyqt5">Desktop System Agent (PyQt5)</h4>
+<p>The desktop agent is responsible for <strong>hardware-sensitive operations</strong>, which are not possible inside browser-based applications due to sandboxing and security constraints.</p>
+<p>Responsibilities:</p>
+<ul>
+<li>Secure Google OAuth authentication</li>
+<li>Real-time system metric collection using <code>psutil</code></li>
+<li>Local ML inference using trained neural networks</li>
+<li>Structured health report generation</li>
+<li>Secure upload of reports to Supabase</li>
+</ul>
+<p>The desktop client acts as a <strong>trusted system sensor and intelligence node</strong>.</p>
+<hr />
+<h4 id="web-dashboard-streamlit">Web Dashboard (Streamlit)</h4>
+<p>The web application provides:</p>
+<ul>
+<li>Cloud-based visualization</li>
+<li>Historical report analysis</li>
+<li>AI-powered diagnostics chatbot</li>
+<li>Interactive dashboards</li>
+</ul>
+<p>Responsibilities:</p>
+<ul>
+<li>Secure OAuth login</li>
+<li>Supabase data access</li>
+<li>RAG pipeline execution</li>
+<li>LLM-powered conversational diagnostics</li>
+<li>UX-focused interface design</li>
+</ul>
+<hr />
+<h2 id="data-flow-pipeline">Data Flow Pipeline</h2>
+<h3 id="step-1-metric-collection-desktop">Step 1 — Metric Collection (Desktop)</h3>
+<p>System metrics are collected using <code>psutil</code>, including:</p>
+<ul>
+<li>CPU utilization and frequency</li>
+<li>Memory usage</li>
+<li>Disk usage and I/O</li>
+<li>Network activity</li>
+<li>Temperature sensors (when available)</li>
+<li>Active process statistics</li>
+</ul>
+<hr />
+<h3 id="step-2-local-ml-inference">Step 2 — Local ML Inference</h3>
+<p>Collected metrics are passed into <strong>trained neural classifiers</strong> that perform:</p>
+<ul>
+<li>Real-time anomaly detection</li>
+<li>Subsystem classification:</li>
+<li>CPU + Memory</li>
+<li>Disk</li>
+<li>Network</li>
+<li>Temperature</li>
+</ul>
+<p>This enables <strong>immediate local detection of suspicious system behavior</strong>.</p>
+<hr />
+<h3 id="step-3-agentic-intelligence-engine">Step 3 — Agentic Intelligence Engine</h3>
+<p>ML outputs are combined with:</p>
+<ul>
+<li>Statistical heuristics</li>
+<li>Domain-driven threat signatures</li>
+<li>Multi-dimensional risk scoring</li>
+</ul>
+<p>The system performs:</p>
+<ul>
+<li>Cryptojacking detection</li>
+<li>Data exfiltration detection</li>
+<li>Thermal abuse analysis</li>
+<li>Sustained workload profiling</li>
+<li>Root cause process attribution</li>
+</ul>
+<p>This hybrid architecture combines:</p>
+<blockquote>
+<p><strong>Neural Intelligence + Rule-based Expert Systems</strong></p>
+</blockquote>
+<hr />
+<h3 id="step-4-structured-report-generation">Step 4 — Structured Report Generation</h3>
+<p>A comprehensive health report is generated containing:</p>
+<ul>
+<li>Global threat index</li>
+<li>Subsystem anomaly breakdown</li>
+<li>Root cause processes</li>
+<li>Aggregate window analysis</li>
+<li>Predictive system forecasts</li>
+</ul>
+<p>This structured format enables seamless cloud analysis and AI interpretation.</p>
+<hr />
+<h3 id="step-5-secure-cloud-synchronization">Step 5 — Secure Cloud Synchronization</h3>
+<p>Reports are uploaded to Supabase using secure API access.</p>
+<p>Supabase provides:</p>
+<ul>
+<li>Authentication mapping</li>
 <li>Report storage</li>
-<li>Secure API access</li>
+<li>Chat history storage</li>
+<li>Full CRUD support</li>
 </ul>
-<h3 id="ai-layer">AI Layer</h3>
+<hr />
+<h3 id="step-6-ai-reasoning-rag">Step 6 — AI Reasoning &amp; RAG</h3>
+<p>The Streamlit web application integrates:</p>
 <ul>
-<li>LLM-based chatbot</li>
-<li>RAG context per operating system</li>
-<li>Diagnostic reasoning on system metrics</li>
+<li>Vector database powered RAG pipeline</li>
+<li>OS-specific contextual knowledge bases</li>
+<li>Generative LLM chatbot</li>
 </ul>
+<p>This allows:</p>
+<ul>
+<li>Context-aware diagnostics</li>
+<li>Explainable system health insights</li>
+<li>OS-tailored optimization guidance</li>
+</ul>
+<hr />
+<h2 id="ai-system-design">AI System Design</h2>
+<h3 id="generative-ai">Generative AI</h3>
+<ul>
+<li>LLM-based conversational diagnostics</li>
+<li>System health explanation</li>
+<li>Actionable optimization guidance</li>
+</ul>
+<hr />
+<h3 id="agentic-ai">Agentic AI</h3>
+<ul>
+<li>Autonomous threat reasoning</li>
+<li>Root cause inference</li>
+<li>Predictive trend modeling</li>
+<li>Decision fusion across subsystems</li>
+</ul>
+<hr />
+<h3 id="machine-learning-layer">Machine Learning Layer</h3>
+<ul>
+<li>Neural classifiers for:</li>
+<li>CPU + memory anomalies</li>
+<li>Disk anomalies</li>
+<li>Network anomalies</li>
+<li>Thermal anomalies</li>
+<li>Encoders for feature extraction</li>
+<li>Supervised training on synthetic + real workload profiles</li>
+</ul>
+<hr />
+<h2 id="why-this-architecture-matters">Why This Architecture Matters</h2>
+<p>This system replicates <strong>real-world observability and cybersecurity architectures</strong> used in:</p>
+<ul>
+<li>Enterprise monitoring platforms</li>
+<li>Endpoint detection systems (EDR)</li>
+<li>Cloud telemetry analytics</li>
+<li>Predictive maintenance systems</li>
+</ul>
+<p>By integrating:</p>
+<ul>
+<li>Desktop-level sensing</li>
+<li>Cloud-scale AI reasoning</li>
+<li>Hybrid intelligence models</li>
+</ul>
+<p>the project achieves <strong>industrial-grade system diagnostics capabilities</strong>.</p>
+<hr />
+<h2 id="system-capabilities-summary">System Capabilities Summary</h2>
+<table>
+<thead>
+<tr>
+<th>Layer</th>
+<th>Capability</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Desktop</td>
+<td>Real-time monitoring + ML inference</td>
+</tr>
+<tr>
+<td>Backend</td>
+<td>Secure storage + authentication</td>
+</tr>
+<tr>
+<td>AI</td>
+<td>Generative + Agentic + RAG</td>
+</tr>
+<tr>
+<td>Web</td>
+<td>Visualization + conversational diagnostics</td>
+</tr>
+<tr>
+<td>ML</td>
+<td>Trend modeling + anomaly classification</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<p>This architecture enables <strong>scalable, secure, and intelligent system diagnostics across platforms</strong>.</p>
 
 
 
@@ -1040,6 +2048,22 @@
   
 </div>
       
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/MohdHedayati/AI-Based-Device-Health-Monitor" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.0.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
     </div>
   </div>
 </footer>
@@ -1052,7 +2076,7 @@
     
     
       
-      <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.tabs", "navigation.top", "search.highlight", "content.code.copy"], "search": "../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.tabs", "navigation.top", "navigation.tracking", "search.highlight", "content.code.copy"], "search": "../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
       <script src="../assets/javascripts/bundle.f55a23d4.min.js"></script>
