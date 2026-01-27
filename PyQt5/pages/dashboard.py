@@ -13,7 +13,7 @@ from PyQt5.QtWidgets import (
 from PyQt5.QtCore import QUrl,Qt, QThread, pyqtSignal
 import subprocess
 from utils.constants import TOKEN_FILE
-from PyQt5.QtGui import QFont, QColor, QPainter,QDesktopServices
+from PyQt5.QtGui import QFont, QColor, QPainter,QDesktopServices, QIcon
 
 class MonitoringIndicator(QWidget):
     def __init__(self):
@@ -21,7 +21,7 @@ class MonitoringIndicator(QWidget):
         self.setWindowFlags(Qt.WindowStaysOnTopHint | Qt.FramelessWindowHint | Qt.Tool)
         self.setAttribute(Qt.WA_TranslucentBackground)
         self.setFixedSize(30, 30)
-        
+
         # Position: Top Right (adjust based on screen width)
         desktop = QApplication.desktop()
         screen_rect = desktop.screenGeometry(desktop.primaryScreen())
@@ -39,31 +39,48 @@ class UploadIndicator(QWidget):
     """Small centered widget that indicates an upload is in progress."""
     def __init__(self, parent=None):
         super().__init__(parent)
-        self.setWindowFlags(Qt.WindowStaysOnTopHint | Qt.FramelessWindowHint | Qt.Tool)
+
+        self.setWindowFlags(
+            Qt.WindowStaysOnTopHint |
+            Qt.FramelessWindowHint |
+            Qt.Tool
+        )
         self.setAttribute(Qt.WA_TranslucentBackground)
-        self.setFixedSize(220, 80)
 
-        # center on parent if provided, otherwise center of primary screen
-        if parent:
-            parent_rect = parent.geometry()
-            x = parent_rect.x() + (parent_rect.width() - self.width()) // 2
-            y = parent_rect.y() + (parent_rect.height() - self.height()) // 2
-            self.move(x, y)
-        else:
-            desktop = QApplication.desktop()
-            screen_rect = desktop.screenGeometry(desktop.primaryScreen())
-            x = (screen_rect.width() - self.width()) // 2
-            y = (screen_rect.height() - self.height()) // 2
-            self.move(x, y)
-
-        # Simple label inside
-        self.label = QLabel("Uploading...", self)
+        self.label = QLabel(
+            "Uploading, Do Not Close the App, Please Wait 2-3 minutes...",
+            self
+        )
         self.label.setAlignment(Qt.AlignCenter)
-        self.label.setGeometry(0, 0, self.width(), self.height())
-        f = QFont()
-        f.setPointSize(12)
-        f.setBold(True)
-        self.label.setFont(f)
+        self.label.setWordWrap(True)
+
+        font = QFont()
+        font.setPointSize(12)
+        font.setBold(True)
+        self.label.setFont(font)
+
+        layout = QVBoxLayout(self)
+        layout.addWidget(self.label)
+        layout.setContentsMargins(12, 12, 12, 12)
+
+        # Optional: control wrapping width
+        self.label.setMaximumWidth(320)
+
+        # Resize widget to fit contents
+        self.adjustSize()
+
+        self.center(parent)
+    def center(self, parent=None):
+        if parent:
+            rect = parent.geometry()
+        else:
+            rect = QApplication.primaryScreen().geometry()
+
+        self.move(
+            rect.center().x() - self.width() // 2,
+            rect.center().y() - self.height() // 2
+        )
+
 
 
 class UploadWorker(QThread):
@@ -93,6 +110,10 @@ class DashboardWindow(QWidget):
         self.user_name = user_name or "User"
         self.monitor_process = None
         self.indicator = None
+
+        # icon
+        from utils.constants import ICON_PATH
+        self.setWindowIcon(QIcon(ICON_PATH))
 
         self.setWindowTitle("Device Health Dashboard")
         self.setFixedSize(1200, 900)

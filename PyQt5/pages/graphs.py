@@ -2,7 +2,7 @@ from PyQt5.QtWidgets import (
     QWidget, QVBoxLayout, QPushButton, QLabel, QScrollArea, QHBoxLayout, 
     QGridLayout, QTableWidget, QTableWidgetItem, QHeaderView
 )
-from PyQt5.QtGui import QPainter, QPen, QColor, QFont, QBrush
+from PyQt5.QtGui import QPainter, QPen, QColor, QFont, QBrush, QIcon
 from PyQt5.QtCore import Qt, QRectF, QTimer
 import json
 import os
@@ -168,6 +168,10 @@ class GraphsWindow(QWidget):
         self.user_name = user_name
         self.parent_dashboard = parent_dashboard
         
+        # icon
+        from utils.constants import ICON_PATH
+        self.setWindowIcon(QIcon(ICON_PATH))
+
         self.setWindowTitle("System Graphs")
         self.setFixedSize(1200, 900)
         # (Keep your existing setStyleSheet here)
