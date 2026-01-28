@@ -1,6 +1,8 @@
 import os
 import sys
 import json
+os.environ["QT_QPA_PLATFORM"] = "wayland"
+
 
 from PyQt5.QtWidgets import QApplication
 

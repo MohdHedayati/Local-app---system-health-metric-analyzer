@@ -10,7 +10,7 @@ from PyQt5.QtWidgets import (
     QMessageBox,
     QApplication,
 )
-from PyQt5.QtCore import QUrl,Qt, QThread, pyqtSignal
+from PyQt5.QtCore import QUrl,Qt, QThread, pyqtSignal, QTimer
 import subprocess
 from utils.constants import TOKEN_FILE
 from PyQt5.QtGui import QFont, QColor, QPainter,QDesktopServices, QIcon
@@ -241,6 +241,15 @@ class DashboardWindow(QWidget):
         layout.addWidget(self.logout_btn)
 
         self.setLayout(layout)
+        self.alert_timer = QTimer(self)
+        self.alert_timer.setInterval(2000)  # check every 2 seconds
+        self.alert_timer.timeout.connect(self.check_and_show_alert)
+        self.alert_timer.start()
+
+        self._alert_shown = False  # prevent spamming
+
+        self.start_monitoring() # auto start on login
+
 
     def show_graphs(self):
         from pages.graphs import GraphsWindow
@@ -341,12 +350,48 @@ class DashboardWindow(QWidget):
                 self.indicator.close()
                 self.indicator = None
             
+            self._alert_shown = False
+            
             from utils.constants import DATA_FILE
             if os.path.exists(DATA_FILE):
                 os.remove(DATA_FILE)
             QMessageBox.information(self, "Stopped", "Monitoring stopped.")
         else:
             QMessageBox.information(self, "Info", "Monitoring not running.")
+        
+
+    def check_and_show_alert(self):
+        if self._alert_shown:
+            return
+
+        if self.should_show_alert():
+            self._alert_shown = True
+            QMessageBox.warning(
+                self,
+                "Attention Required",
+                "Monitoring has Completed Minimum Quota, You May Upload Now"
+            )
+    def should_show_alert(self):
+        from utils.constants import DATA_FILE
+        if os.path.exists(DATA_FILE):
+            try:
+                with open(DATA_FILE, "r") as f:
+                    content = json.load(f)
+                    if isinstance(content, dict):
+                        raw = content.get("data", {}).get("aggregate_samples", [])
+                    else:
+                        raw = []
+                        
+                    if raw:
+                        return len(raw) >= 5
+                    else:
+                        return False
+            except Exception as e:
+                print(f"Error loading: {e}")
+                return False
+        else:
+            return False
+	            
 
 
 
