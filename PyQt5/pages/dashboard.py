@@ -21,7 +21,7 @@ class MonitoringIndicator(QWidget):
         self.setWindowFlags(Qt.WindowStaysOnTopHint | Qt.FramelessWindowHint | Qt.Tool)
         self.setAttribute(Qt.WA_TranslucentBackground)
         self.setFixedSize(30, 30)
-        
+
         # Position: Top Right (adjust based on screen width)
         desktop = QApplication.desktop()
         screen_rect = desktop.screenGeometry(desktop.primaryScreen())
@@ -39,31 +39,48 @@ class UploadIndicator(QWidget):
     """Small centered widget that indicates an upload is in progress."""
     def __init__(self, parent=None):
         super().__init__(parent)
-        self.setWindowFlags(Qt.WindowStaysOnTopHint | Qt.FramelessWindowHint | Qt.Tool)
+
+        self.setWindowFlags(
+            Qt.WindowStaysOnTopHint |
+            Qt.FramelessWindowHint |
+            Qt.Tool
+        )
         self.setAttribute(Qt.WA_TranslucentBackground)
-        self.setFixedSize(220, 80)
 
-        # center on parent if provided, otherwise center of primary screen
-        if parent:
-            parent_rect = parent.geometry()
-            x = parent_rect.x() + (parent_rect.width() - self.width()) // 2
-            y = parent_rect.y() + (parent_rect.height() - self.height()) // 2
-            self.move(x, y)
-        else:
-            desktop = QApplication.desktop()
-            screen_rect = desktop.screenGeometry(desktop.primaryScreen())
-            x = (screen_rect.width() - self.width()) // 2
-            y = (screen_rect.height() - self.height()) // 2
-            self.move(x, y)
-
-        # Simple label inside
-        self.label = QLabel("Uploading...", self)
+        self.label = QLabel(
+            "Uploading, Do Not Close the App, Please Wait 2-3 minutes...",
+            self
+        )
         self.label.setAlignment(Qt.AlignCenter)
-        self.label.setGeometry(0, 0, self.width(), self.height())
-        f = QFont()
-        f.setPointSize(12)
-        f.setBold(True)
-        self.label.setFont(f)
+        self.label.setWordWrap(True)
+
+        font = QFont()
+        font.setPointSize(12)
+        font.setBold(True)
+        self.label.setFont(font)
+
+        layout = QVBoxLayout(self)
+        layout.addWidget(self.label)
+        layout.setContentsMargins(12, 12, 12, 12)
+
+        # Optional: control wrapping width
+        self.label.setMaximumWidth(320)
+
+        # Resize widget to fit contents
+        self.adjustSize()
+
+        self.center(parent)
+    def center(self, parent=None):
+        if parent:
+            rect = parent.geometry()
+        else:
+            rect = QApplication.primaryScreen().geometry()
+
+        self.move(
+            rect.center().x() - self.width() // 2,
+            rect.center().y() - self.height() // 2
+        )
+
 
 
 class UploadWorker(QThread):
@@ -93,6 +110,8 @@ class DashboardWindow(QWidget):
         self.user_name = user_name or "User"
         self.monitor_process = None
         self.indicator = None
+        # Guard to prevent concurrent start attempts
+        self._starting_monitor = False
 
         # icon
         from utils.constants import ICON_PATH
@@ -241,6 +260,8 @@ class DashboardWindow(QWidget):
         layout.addWidget(self.logout_btn)
 
         self.setLayout(layout)
+
+        self.setLayout(layout)
         self.alert_timer = QTimer(self)
         self.alert_timer.setInterval(2000)  # check every 2 seconds
         self.alert_timer.timeout.connect(self.check_and_show_alert)
@@ -249,7 +270,6 @@ class DashboardWindow(QWidget):
         self._alert_shown = False  # prevent spamming
 
         self.start_monitoring() # auto start on login
-
 
     def show_graphs(self):
         from pages.graphs import GraphsWindow
@@ -315,29 +335,38 @@ class DashboardWindow(QWidget):
         self.upload_worker.failure.connect(on_failure)
         self.upload_worker.start()
     def start_monitoring(self):
-        from utils.constants import DATA_FILE
-        if os.path.exists(DATA_FILE):
-            os.remove(DATA_FILE)
         if self.monitor_process and self.monitor_process.poll() is None:
             QMessageBox.information(self, "Info", "Monitoring already running.")
             return
+        from utils.constants import DATA_FILE
+        if os.path.exists(DATA_FILE):
+            os.remove(DATA_FILE)
+        # Prevent concurrent starts
+        if getattr(self, "_starting_monitor", False):
+            return
 
-        args = [sys.executable, sys.argv[0], "--child-get-info"]
-        kwargs = {
-            "stdout": subprocess.DEVNULL,
-            "stderr": subprocess.DEVNULL,
-            "close_fds": True
-        }
-        # Hide console on Windows
-        if sys.platform == "win32" and hasattr(subprocess, "CREATE_NO_WINDOW"):
-            kwargs["creationflags"] = subprocess.CREATE_NO_WINDOW
+        
 
-        self.monitor_process = subprocess.Popen(args, **kwargs)
+        self._starting_monitor = True
+        try:
+            args = [sys.executable, sys.argv[0], "--child-get-info"]
+            kwargs = {
+                "stdout": subprocess.DEVNULL,
+                "stderr": subprocess.DEVNULL,
+                "close_fds": True
+            }
+            # Hide console on Windows
+            if sys.platform == "win32" and hasattr(subprocess, "CREATE_NO_WINDOW"):
+                kwargs["creationflags"] = subprocess.CREATE_NO_WINDOW
 
-        self.indicator = MonitoringIndicator()
-        self.indicator.show()
+            self.monitor_process = subprocess.Popen(args, **kwargs)
 
-        QMessageBox.information(self, "Started", "System monitoring started.")
+            self.indicator = MonitoringIndicator()
+            self.indicator.show()
+
+            QMessageBox.information(self, "Started", "System monitoring started.")
+        finally:
+            self._starting_monitor = False
 
 
     def stop_monitoring(self):
@@ -350,23 +379,20 @@ class DashboardWindow(QWidget):
                 self.indicator.close()
                 self.indicator = None
             
-            self._alert_shown = False
-            
             from utils.constants import DATA_FILE
             if os.path.exists(DATA_FILE):
                 os.remove(DATA_FILE)
             QMessageBox.information(self, "Stopped", "Monitoring stopped.")
         else:
             QMessageBox.information(self, "Info", "Monitoring not running.")
-        
-
+    
     def check_and_show_alert(self):
         if self._alert_shown:
             return
 
         if self.should_show_alert():
             self._alert_shown = True
-            QMessageBox.warning(
+            QMessageBox.information(
                 self,
                 "Attention Required",
                 "Monitoring has Completed Minimum Quota, You May Upload Now"
@@ -378,10 +404,10 @@ class DashboardWindow(QWidget):
                 with open(DATA_FILE, "r") as f:
                     content = json.load(f)
                     if isinstance(content, dict):
-                        raw = content.get("data", {}).get("aggregate_samples", [])
+                        raw = content.get("data", {}).get("aggregates", [])
                     else:
                         raw = []
-                        
+                    # print(len(raw))
                     if raw:
                         return len(raw) >= 5
                     else:
@@ -391,6 +417,31 @@ class DashboardWindow(QWidget):
                 return False
         else:
             return False
+
+    def closeEvent(self, event):
+        # Ensure monitoring child is terminated when dashboard closes
+        try:
+            if self.monitor_process and self.monitor_process.poll() is None:
+                try:
+                    self.monitor_process.terminate()
+                    self.monitor_process.wait(timeout=5)
+                except Exception:
+                    pass
+                self.monitor_process = None
+        except Exception:
+            pass
+
+        if self.indicator:
+            try:
+                self.indicator.close()
+            except Exception:
+                pass
+            self.indicator = None
+
+        event.accept()
+
+
+
 	            
 
 
