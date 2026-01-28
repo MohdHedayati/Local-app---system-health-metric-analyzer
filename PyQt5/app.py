@@ -2,13 +2,15 @@ import os
 import sys
 import json
 
-from PyQt5.QtWidgets import QApplication
 
-from pages.auth import LoginWindow
-from pages.dashboard import DashboardWindow
-from utils.constants import TOKEN_FILE        # where Google credentials are stored
 
 def load_user_name_from_token():
+    # import TOKEN_FILE lazily so child mode doesn't import GUI modules
+    try:
+        from utils.constants import TOKEN_FILE
+    except Exception:
+        return None
+
     if not os.path.exists(TOKEN_FILE):
         return None
     try:
@@ -29,11 +31,15 @@ def main():
         _get_info_main()
         sys.exit(0)
 
+    # Normal GUI startup: import GUI-related modules after child check
+    from PyQt5.QtWidgets import QApplication
+    from pages.auth import LoginWindow
+    from pages.dashboard import DashboardWindow
+
     app = QApplication(sys.argv)
 
     # Check token file to decide whether user is already logged in
     user_name = load_user_name_from_token()
-    # print(user_name)
     if user_name:
         # Show dashboard directly
         window = DashboardWindow(user_name=user_name)

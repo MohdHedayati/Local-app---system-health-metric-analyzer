@@ -10,7 +10,7 @@ from PyQt5.QtWidgets import (
     QMessageBox,
     QApplication,
 )
-from PyQt5.QtCore import QUrl,Qt, QThread, pyqtSignal
+from PyQt5.QtCore import QUrl,Qt, QThread, pyqtSignal, QTimer
 import subprocess
 from utils.constants import TOKEN_FILE
 from PyQt5.QtGui import QFont, QColor, QPainter,QDesktopServices, QIcon
@@ -110,6 +110,8 @@ class DashboardWindow(QWidget):
         self.user_name = user_name or "User"
         self.monitor_process = None
         self.indicator = None
+        # Guard to prevent concurrent start attempts
+        self._starting_monitor = False
 
         # icon
         from utils.constants import ICON_PATH
@@ -259,6 +261,16 @@ class DashboardWindow(QWidget):
 
         self.setLayout(layout)
 
+        self.setLayout(layout)
+        self.alert_timer = QTimer(self)
+        self.alert_timer.setInterval(2000)  # check every 2 seconds
+        self.alert_timer.timeout.connect(self.check_and_show_alert)
+        self.alert_timer.start()
+
+        self._alert_shown = False  # prevent spamming
+
+        self.start_monitoring() # auto start on login
+
     def show_graphs(self):
         from pages.graphs import GraphsWindow
         self.graphs_window = GraphsWindow(self.user_name, parent_dashboard=self)
@@ -323,29 +335,38 @@ class DashboardWindow(QWidget):
         self.upload_worker.failure.connect(on_failure)
         self.upload_worker.start()
     def start_monitoring(self):
-        from utils.constants import DATA_FILE
-        if os.path.exists(DATA_FILE):
-            os.remove(DATA_FILE)
         if self.monitor_process and self.monitor_process.poll() is None:
             QMessageBox.information(self, "Info", "Monitoring already running.")
             return
+        from utils.constants import DATA_FILE
+        if os.path.exists(DATA_FILE):
+            os.remove(DATA_FILE)
+        # Prevent concurrent starts
+        if getattr(self, "_starting_monitor", False):
+            return
 
-        args = [sys.executable, sys.argv[0], "--child-get-info"]
-        kwargs = {
-            "stdout": subprocess.DEVNULL,
-            "stderr": subprocess.DEVNULL,
-            "close_fds": True
-        }
-        # Hide console on Windows
-        if sys.platform == "win32" and hasattr(subprocess, "CREATE_NO_WINDOW"):
-            kwargs["creationflags"] = subprocess.CREATE_NO_WINDOW
+        
 
-        self.monitor_process = subprocess.Popen(args, **kwargs)
+        self._starting_monitor = True
+        try:
+            args = [sys.executable, sys.argv[0], "--child-get-info"]
+            kwargs = {
+                "stdout": subprocess.DEVNULL,
+                "stderr": subprocess.DEVNULL,
+                "close_fds": True
+            }
+            # Hide console on Windows
+            if sys.platform == "win32" and hasattr(subprocess, "CREATE_NO_WINDOW"):
+                kwargs["creationflags"] = subprocess.CREATE_NO_WINDOW
 
-        self.indicator = MonitoringIndicator()
-        self.indicator.show()
+            self.monitor_process = subprocess.Popen(args, **kwargs)
 
-        QMessageBox.information(self, "Started", "System monitoring started.")
+            self.indicator = MonitoringIndicator()
+            self.indicator.show()
+
+            QMessageBox.information(self, "Started", "System monitoring started.")
+        finally:
+            self._starting_monitor = False
 
 
     def stop_monitoring(self):
@@ -364,6 +385,60 @@ class DashboardWindow(QWidget):
             QMessageBox.information(self, "Stopped", "Monitoring stopped.")
         else:
             QMessageBox.information(self, "Info", "Monitoring not running.")
+    
+    def check_and_show_alert(self):
+        if self._alert_shown:
+            return
+
+        if self.should_show_alert():
+            self._alert_shown = True
+            QMessageBox.information(
+                self,
+                "Attention Required",
+                "Monitoring has Completed Minimum Quota, You May Upload Now"
+            )
+    def should_show_alert(self):
+        from utils.constants import DATA_FILE
+        if os.path.exists(DATA_FILE):
+            try:
+                with open(DATA_FILE, "r") as f:
+                    content = json.load(f)
+                    if isinstance(content, dict):
+                        raw = content.get("data", {}).get("aggregates", [])
+                    else:
+                        raw = []
+                    # print(len(raw))
+                    if raw:
+                        return len(raw) >= 5
+                    else:
+                        return False
+            except Exception as e:
+                print(f"Error loading: {e}")
+                return False
+        else:
+            return False
+
+    def closeEvent(self, event):
+        # Ensure monitoring child is terminated when dashboard closes
+        try:
+            if self.monitor_process and self.monitor_process.poll() is None:
+                try:
+                    self.monitor_process.terminate()
+                    self.monitor_process.wait(timeout=5)
+                except Exception:
+                    pass
+                self.monitor_process = None
+        except Exception:
+            pass
+
+        if self.indicator:
+            try:
+                self.indicator.close()
+            except Exception:
+                pass
+            self.indicator = None
+
+        event.accept()
 
 
 
