@@ -11,43 +11,74 @@ The system is architected into **two tightly coupled applications**:
 
 ## High-Level Architecture
 
-┌──────────────────────────┐
-│ User Machine │
-│ │
-│ ┌────────────────────┐ │
-│ │ PyQt5 Desktop App │ │
-│ │ │ │
-│ │ - Google OAuth │ │
-│ │ - psutil Metrics │ │
-│ │ - Local ML Engine │ │
-│ │ - Report Builder │ │
-│ └──────────┬─────────┘ │
-│ │ │
-└─────────────┼─────────────┘
-│ Secure Upload
-▼
-┌───────────────┐
-│ Supabase │
-│ Backend │
-│ │
-│ - Auth Mapping│
-│ - Reports DB │
-│ - Chat Storage│
-└───────┬───────┘
-│
-▼
-┌──────────────────────┐
-│ Streamlit Web App │
-│ │
-│ - Google OAuth │
-│ - Dashboard UI │
-│ - AI Chatbot │
-│ - RAG Engine │
-│ - Agentic AI │
-└──────────┬───────────┘
-│
-▼
-Intelligent Diagnostics
+```mermaid
+graph TD
+    %% Styling
+    classDef client fill:#e1f5fe,stroke:#01579b,stroke-width:2px;
+    classDef cloud fill:#f3e5f5,stroke:#4a148c,stroke-width:2px;
+    classDef db fill:#fff3e0,stroke:#e65100,stroke-width:2px;
+    classDef ml fill:#e8f5e9,stroke:#1b5e20,stroke-width:2px;
+
+    subgraph Client_Side [User Local Environment]
+        direction TB
+        User((User))
+        
+        subgraph Desktop_App [PyQt5 Desktop Agent]
+            Auth_Local[Google OAuth]
+            Metrics[psutil Metrics Engine]
+            Report_Gen[Report Generator]
+            
+            subgraph ML_Engine [Local Intelligence]
+                Neural_Net[Neural Networks]
+                Anomaly[Anomaly Detection]
+            end
+        end
+    end
+
+    subgraph Cloud_Side [Cloud Infrastructure]
+        direction TB
+        
+        subgraph Backend [Supabase Backend]
+            Auth_DB[(Auth & Users)]
+            Metrics_DB[(Metrics Storage)]
+            Vector_DB[(Vector Store)]
+        end
+
+        subgraph Web_Platform [Streamlit Web Dashboard]
+            Dashboard[Visual Dashboard]
+            Chat_UI[AI Chat Interface]
+            
+            subgraph AI_Core [Agentic AI Engine]
+                RAG[RAG Pipeline]
+                LLM[LLM Reasoning]
+                Agents[Autonomous Agents]
+            end
+        end
+    end
+
+    %% Connections
+    User -->|Starts| Desktop_App
+    User -->|Visits| Web_Platform
+
+    %% Desktop Flows
+    Metrics -->|Raw Data| Neural_Net
+    Neural_Net -->|Inference| Anomaly
+    Anomaly -->|Insights| Report_Gen
+    Metrics -->|Stats| Report_Gen
+    Report_Gen -->|Secure Upload| Metrics_DB
+
+    %% Cloud Flows
+    Web_Platform -->|Fetch Data| Metrics_DB
+    Chat_UI -->|Query| AI_Core
+    AI_Core -->|Retrieve Context| Vector_DB
+    AI_Core -->|Response| Chat_UI
+    
+    %% Styles
+    class Desktop_App,Web_Platform client;
+    class Backend,AI_Core cloud;
+    class Auth_DB,Metrics_DB,Vector_DB db;
+    class ML_Engine,Neural_Net,Anomaly ml;
+```
 
 ---
 

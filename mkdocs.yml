@@ -6,7 +6,6 @@ theme:
   name: material
   features:
     - navigation.instant
-    - navigation.tabs
     - navigation.top
     - navigation.tracking
     - search.highlight
@@ -51,14 +50,14 @@ nav:
       - Data Schema: backend/schema.md
       - API & Security: backend/api.md
 
-  - Project Journey:
-      - Timeline: journey/timeline.md
-      - Iterations & Improvements: journey/iterations.md
-      - Learnings: journey/learnings.md
-
   - Security & Privacy: security.md
   - Future Scope: future.md
   - Acknowledgements: acknowledgements.md
+
+  - Project Journey:
+    - Timeline: journey/timeline.md
+    - Iterations & Improvements: journey/iterations.md
+    - Learnings: journey/learnings.md
 
 site_url: https://MohdHedayati.github.io/AI-Based-Device-Health-Monitor/
 
@@ -66,3 +65,10 @@ extra:
   social:
     - icon: fontawesome/brands/github
       link: https://github.com/MohdHedayati/AI-Based-Device-Health-Monitor
+
+markdown_extensions:
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
