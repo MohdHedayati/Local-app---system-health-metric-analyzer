@@ -1270,34 +1270,46 @@
 <p>The report payload is designed to match the <strong>Supabase Schema</strong> exactly. Note that fields like <code>summary</code> and <code>conclusions</code> are often sent as <code>null</code> initially, to be filled later by the Cloud AI.</p>
 <h3 id="json-payload-schema">JSON Payload Schema</h3>
 <div class="highlight"><pre><span></span><code><span class="p">{</span>
-<span class="w">  </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;550e8400-e29b-41d4-a716-446655440000&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;user_email&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;john.doe@example.com&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;device_name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Desktop-Main&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;os&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Windows 11 Pro Build 22621&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;source&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;desktop-agent-v1.2&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Healthy&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;raw_data&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="nt">&quot;timestamp&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1698417000</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;cpu&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">      </span><span class="nt">&quot;percent&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">15.4</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;freq_current&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">3200</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;cores&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">12</span>
-<span class="w">    </span><span class="p">},</span>
-<span class="w">    </span><span class="nt">&quot;memory&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">      </span><span class="nt">&quot;total&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">17179869184</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;available&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">8589934592</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;percent&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">50.0</span>
-<span class="w">    </span><span class="p">},</span>
-<span class="w">    </span><span class="nt">&quot;disk_io&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">      </span><span class="nt">&quot;read_bytes&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">10240</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;write_bytes&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">40960</span>
-<span class="w">    </span><span class="p">},</span>
-<span class="w">    </span><span class="nt">&quot;sensors&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">      </span><span class="nt">&quot;temperature_cpu&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">45.0</span>
+<span class="w">  </span><span class="err">id</span><span class="p">:</span><span class="w"> </span><span class="err">(uuid)</span><span class="w"> </span>
+<span class="w">  </span><span class="err">user_email</span><span class="p">:</span><span class="err">...</span><span class="w"> </span>
+<span class="w">  </span><span class="err">raw_da</span><span class="kc">ta</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">da</span><span class="kc">ta</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="err">rece</span><span class="kc">nt</span><span class="err">_samples</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="err">..</span><span class="p">},</span><span class="w"> </span><span class="err">aggrega</span><span class="kc">tes</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="err">..</span><span class="p">}}}</span><span class="w"> </span>
+<span class="w">      </span><span class="nt">&quot;summary&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;CRITICAL&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;global_threat_index&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">60</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;recent_analysis&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">          </span><span class="nt">&quot;anomalies_detected&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;cpu&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;net&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;disk&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;temp&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span>
+<span class="w">          </span><span class="p">},</span>
+<span class="w">          </span><span class="nt">&quot;recent_sample_count&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">90</span>
+<span class="w">        </span><span class="p">},</span>
+<span class="w">        </span><span class="nt">&quot;aggregate_analysis&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="err">...</span><span class="w"> </span>
+<span class="w">        </span><span class="p">},</span>
+<span class="w">        </span><span class="nt">&quot;forecast_projection&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">          </span><span class="p">{</span><span class="err">...</span><span class="p">},</span><span class="w"> </span>
+<span class="w">          </span><span class="p">{</span><span class="err">..</span><span class="p">},</span><span class="w"> </span>
+
+
+<span class="w">        </span><span class="p">],</span>
+<span class="w">        </span><span class="nt">&quot;peak_active_period&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">          </span><span class="nt">&quot;top_processes&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">            </span><span class="err">...</span><span class="w"> </span>
+<span class="w">          </span><span class="p">],</span>
+<span class="w">          </span><span class="nt">&quot;top_aggregate&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="err">...</span><span class="w"> </span>
+<span class="w">          </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
 <span class="w">    </span><span class="p">}</span>
-<span class="w">  </span><span class="p">},</span>
-<span class="w">  </span><span class="nt">&quot;summary&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">      </span><span class="c1">// Populated by Cloud AI later</span>
-<span class="w">  </span><span class="nt">&quot;conclusions&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="w">   </span><span class="c1">// Populated by Cloud AI later</span>
+<span class="w">  </span><span class="err">co</span><span class="kc">n</span><span class="err">clusio</span><span class="kc">ns</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="err">...</span><span class="p">}</span>
+<span class="w">  </span><span class="err">s</span><span class="kc">tatus</span><span class="p">:</span><span class="w"> </span><span class="err">processed</span>
+<span class="w">  </span><span class="err">source</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="err">desk</span><span class="kc">t</span><span class="err">op_app</span>
+<span class="w">  </span><span class="err">device_</span><span class="kc">na</span><span class="err">me</span><span class="p">:</span><span class="err">archli</span><span class="kc">nu</span><span class="err">x</span><span class="mi">-</span><span class="err">awwab</span>
+<span class="w">  </span><span class="err">os</span><span class="p">:</span><span class="w"> </span><span class="err">Li</span><span class="kc">nu</span><span class="err">x</span>
+<span class="w">  </span><span class="err">crea</span><span class="kc">te</span><span class="err">d_a</span><span class="kc">t</span><span class="p">:</span><span class="err">...</span>
+<span class="w">  </span><span class="err">processed_a</span><span class="kc">t</span><span class="p">:</span><span class="err">....</span>
 <span class="p">}</span>
 </code></pre></div>
 <h2 id="data-integrity">🛡️ Data Integrity</h2>
