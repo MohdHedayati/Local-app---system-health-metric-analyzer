@@ -882,27 +882,27 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#1-identity-devices" class="md-nav__link">
+  <a href="#1-telemetry-analysis-user_system_reports" class="md-nav__link">
     <span class="md-ellipsis">
-      1. Identity &amp; Devices
+      1. Telemetry &amp; Analysis (user_system_reports)
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#2-telemetry-time-series-data" class="md-nav__link">
+  <a href="#2-chat-history-all_chats" class="md-nav__link">
     <span class="md-ellipsis">
-      2. Telemetry (Time-Series Data)
+      2. Chat History (all_chats)
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#3-intelligence-alerts" class="md-nav__link">
+  <a href="#3-chat-sequence-tracking-user_chat_nums" class="md-nav__link">
     <span class="md-ellipsis">
-      3. Intelligence &amp; Alerts
+      3. Chat Sequence Tracking (user_chat_nums)
     </span>
   </a>
   
@@ -914,18 +914,18 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#vector-store-rag-schema" class="md-nav__link">
+  <a href="#vector-store-chromadb" class="md-nav__link">
     <span class="md-ellipsis">
-      🧠 Vector Store (RAG Schema)
+      🧠 Vector Store (ChromaDB)
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#relationships-er-diagram" class="md-nav__link">
+  <a href="#relationships" class="md-nav__link">
     <span class="md-ellipsis">
-      🔗 Relationships (ER Diagram)
+      🔗 Relationships
     </span>
   </a>
   
@@ -1196,27 +1196,27 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#1-identity-devices" class="md-nav__link">
+  <a href="#1-telemetry-analysis-user_system_reports" class="md-nav__link">
     <span class="md-ellipsis">
-      1. Identity &amp; Devices
+      1. Telemetry &amp; Analysis (user_system_reports)
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#2-telemetry-time-series-data" class="md-nav__link">
+  <a href="#2-chat-history-all_chats" class="md-nav__link">
     <span class="md-ellipsis">
-      2. Telemetry (Time-Series Data)
+      2. Chat History (all_chats)
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#3-intelligence-alerts" class="md-nav__link">
+  <a href="#3-chat-sequence-tracking-user_chat_nums" class="md-nav__link">
     <span class="md-ellipsis">
-      3. Intelligence &amp; Alerts
+      3. Chat Sequence Tracking (user_chat_nums)
     </span>
   </a>
   
@@ -1228,18 +1228,18 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#vector-store-rag-schema" class="md-nav__link">
+  <a href="#vector-store-chromadb" class="md-nav__link">
     <span class="md-ellipsis">
-      🧠 Vector Store (RAG Schema)
+      🧠 Vector Store (ChromaDB)
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#relationships-er-diagram" class="md-nav__link">
+  <a href="#relationships" class="md-nav__link">
     <span class="md-ellipsis">
-      🔗 Relationships (ER Diagram)
+      🔗 Relationships
     </span>
   </a>
   
@@ -1271,99 +1271,74 @@
 
 
 <h1 id="data-schema-postgresql">Data Schema (PostgreSQL)</h1>
-<p>The application's data layer is built on <strong>PostgreSQL</strong>. The schema is designed to balance <strong>relational integrity</strong> (ensuring every report belongs to a valid user) with <strong>NoSQL flexibility</strong> (storing complex sensor data in JSON format).</p>
-<p>This hybrid approach allows us to add new metrics (like a new "GPU Temp" sensor) without needing to rewrite the entire database structure.</p>
+<p>The application's data layer is built on <strong>Supabase (PostgreSQL)</strong>. The schema relies heavily on <strong>JSONB columns</strong> to handle flexible, document-style data (like chat logs and complex system reports) while maintaining the querying power of SQL.</p>
 <hr />
 <h2 id="core-tables">🗂 Core Tables</h2>
-<p>The database is organized into four primary domains:</p>
-<h3 id="1-identity-devices">1. Identity &amp; Devices</h3>
-<p>These tables manage <em>who</em> owns the data and <em>where</em> it comes from.</p>
+<p>Based on the current deployment, the database is structured into three primary tables:</p>
+<h3 id="1-telemetry-analysis-user_system_reports">1. Telemetry &amp; Analysis (<code>user_system_reports</code>)</h3>
+<p>This is the central table where the Desktop Agent uploads data. It acts as both a <strong>Log</strong> of raw metrics and a <strong>Report</strong> containing AI analysis.</p>
 <ul>
-<li>
-<p><strong><code>profiles</code></strong>: Extensions of the standard Supabase User.</p>
+<li><strong><code>id</code></strong> (UUID): Unique identifier for the report.</li>
+<li><strong><code>user_email</code></strong> (text): Links the report to the user (via email identity).</li>
+<li><strong><code>device_name</code></strong> (text): The hostname of the machine (e.g., <code>Desktop-Main</code>).</li>
+<li><strong><code>os</code></strong> (text): Operating System details (e.g., <code>Windows 11</code>).</li>
+<li><strong><code>raw_data</code></strong> (jsonb): The complete, unprocessed telemetry payload from <code>psutil</code> (CPU, RAM, Disk I/O).</li>
+<li><strong><code>summary</code></strong> (json): AI-generated summary of the raw data.</li>
+<li><strong><code>conclusions</code></strong> (text): High-level diagnostic output (e.g., "System is healthy").</li>
+<li><strong><code>status</code></strong> (text): Current health tag (e.g., <code>Critical</code>, <code>Warning</code>, <code>Healthy</code>).</li>
+<li><strong><code>source</code></strong> (text): Origin of the data (e.g., <code>desktop-agent-v1</code>).</li>
+<li><strong><code>created_at</code></strong> (timestamptz): Upload timestamp.</li>
+<li><strong><code>processed_at</code></strong> (timestamptz): Timestamp when the AI finished analyzing the report.</li>
+</ul>
+<h3 id="2-chat-history-all_chats">2. Chat History (<code>all_chats</code>)</h3>
+<p>Instead of storing messages as individual rows, we store entire conversation threads as JSON arrays. This simplifies retrieving the full context for the LLM.</p>
 <ul>
-<li><code>id</code> (UUID): Links directly to <code>auth.users</code>.</li>
-<li><code>email</code>: User's contact info.</li>
-<li><code>preferences</code>: JSON blob for dashboard settings (e.g., Dark Mode toggle).</li>
+<li><strong><code>chat_id</code></strong> (int8): Unique ID for the conversation thread.</li>
+<li><strong><code>email</code></strong> (text): The owner of the chat.</li>
+<li><strong><code>title</code></strong> (text): Auto-generated title of the conversation.</li>
+<li><strong><code>user_messages</code></strong> (json): Array of all prompts sent by the user.</li>
+<li><strong><code>llm_responses</code></strong> (json): Array of all responses generated by the AI.</li>
+<li><strong><code>summary</code></strong> (jsonb): Key takeaways from the conversation.</li>
+<li><strong><code>metadata</code></strong> (jsonb): Additional context tokens or model usage stats.</li>
 </ul>
-</li>
-<li>
-<p><strong><code>devices</code></strong>: A registry of physical machines.</p>
+<h3 id="3-chat-sequence-tracking-user_chat_nums">3. Chat Sequence Tracking (<code>user_chat_nums</code>)</h3>
+<p>A utility table used to manage and increment chat IDs for users, ensuring sequential or unique ordering.</p>
 <ul>
-<li><code>device_id</code> (UUID): Unique hardware identifier generated by the Desktop Agent.</li>
-<li><code>user_id</code> (UUID): The owner of the device.</li>
-<li><code>specs</code>: JSONB column storing static hardware info (CPU model, Total RAM).</li>
-<li><code>last_seen</code>: Timestamp of the last successful heartbeat.</li>
-</ul>
-</li>
-</ul>
-<h3 id="2-telemetry-time-series-data">2. Telemetry (Time-Series Data)</h3>
-<p>This is the heaviest table in the system, receiving uploads every few minutes.</p>
-<ul>
-<li><strong><code>system_metrics</code></strong>: The log of historical performance.<ul>
-<li><code>id</code>: Primary Key.</li>
-<li><code>device_id</code>: Foreign Key to <code>devices</code>.</li>
-<li><code>timestamp</code>: When the data was captured.</li>
-<li><code>cpu_avg</code>: Fast-access column for querying.</li>
-<li><code>ram_percent</code>: Fast-access column for querying.</li>
-<li><code>raw_data</code>: <strong>JSONB</strong>. Contains the full, granular report from <code>psutil</code>.</li>
-</ul>
-</li>
-</ul>
-<blockquote>
-<p><strong>Why JSONB?</strong> By storing the bulk of the data in a JSONB column, we can query specific fields (like <code>raw_data-&gt;'sensors'-&gt;'fan_speed'</code>) if we need them, but we don't need to create a dedicated column for every single sensor on the motherboard.</p>
-</blockquote>
-<h3 id="3-intelligence-alerts">3. Intelligence &amp; Alerts</h3>
-<p>Stores the outputs of the Machine Learning and Agentic engines.</p>
-<ul>
-<li>
-<p><strong><code>anomalies</code></strong>: Events flagged by the Local ML Engine.</p>
-<ul>
-<li><code>severity</code>: "Critical", "Warning", or "Info".</li>
-<li><code>anomaly_type</code>: e.g., "Thermal Throttling".</li>
-<li><code>description</code>: Human-readable explanation.</li>
-</ul>
-</li>
-<li>
-<p><strong><code>chat_history</code></strong>: Persistent memory for the AI Agent.</p>
-<ul>
-<li><code>session_id</code>: specific conversation thread.</li>
-<li><code>role</code>: "user" or "assistant".</li>
-<li><code>content</code>: The actual text of the message.</li>
-</ul>
-</li>
+<li><strong><code>chat_id</code></strong> (int8): The current max chat ID.</li>
+<li><strong><code>email</code></strong> (text): The user associated with this sequence.</li>
 </ul>
 <hr />
-<h2 id="vector-store-rag-schema">🧠 Vector Store (RAG Schema)</h2>
-<p>To support the <strong>Retrieval-Augmented Generation (RAG)</strong> pipeline, we use the <code>pgvector</code> extension.</p>
+<h2 id="vector-store-chromadb">🧠 Vector Store (ChromaDB)</h2>
+<p>Unlike the relational data stored in Supabase, the <strong>Vector Embeddings</strong> used for RAG are stored in <strong>ChromaDB</strong>.</p>
 <ul>
-<li><strong><code>documentation_embeddings</code></strong>:<ul>
-<li><code>id</code>: Unique ID.</li>
-<li><code>content</code>: The actual text chunk (e.g., a paragraph from the Arch Linux wiki).</li>
-<li><code>embedding</code>: A <code>vector(1536)</code> column. This stores the 1,536-dimensional coordinate representing the <em>meaning</em> of the text.</li>
-</ul>
-</li>
+<li><strong>Role:</strong> Stores embeddings of technical documentation (Windows/Linux error codes).</li>
+<li><strong>Integration:</strong> The Python backend queries ChromaDB for context <em>before</em> sending a prompt to the LLM, but the actual vector data does not reside in the PostgreSQL <code>public</code> schema.</li>
 </ul>
 <hr />
-<h2 id="relationships-er-diagram">🔗 Relationships (ER Diagram)</h2>
-<p>The data flows hierarchically:</p>
-<ol>
-<li>A <strong>User</strong> has many <strong>Devices</strong>.</li>
-<li>A <strong>Device</strong> produces many <strong>Metrics</strong>.</li>
-<li>A <strong>Device</strong> can have many <strong>Anomalies</strong>.</li>
-</ol>
-<div class="highlight"><pre><span></span><code><span class="c1">-- Simplified Relationship Logic</span>
-<span class="n">users</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="err">────</span><span class="o">&lt;</span><span class="w"> </span><span class="n">devices</span><span class="w"> </span><span class="p">(</span><span class="n">N</span><span class="p">)</span>
-<span class="w">                   </span><span class="err">│</span>
-<span class="w">                   </span><span class="err">├────</span><span class="o">&lt;</span><span class="w"> </span><span class="n">system_metrics</span><span class="w"> </span><span class="p">(</span><span class="n">N</span><span class="p">)</span>
-<span class="w">                   </span><span class="err">└────</span><span class="o">&lt;</span><span class="w"> </span><span class="n">anomalies</span><span class="w"> </span><span class="p">(</span><span class="n">N</span><span class="p">)</span>
-</code></pre></div>
+<h2 id="relationships">🔗 Relationships</h2>
+<p>The data uses <strong>Email</strong> as the primary linking key rather than raw UUIDs in some places, allowing for easier human-readable queries during debugging.</p>
+<pre class="mermaid"><code>erDiagram
+    User ||--o{ user_system_reports : "uploads"
+    User ||--o{ all_chats : "participates_in"
+    User ||--o{ user_chat_nums : "tracks_sequence"
+
+    user_system_reports {
+        uuid id PK
+        text user_email FK
+        jsonb raw_data
+        text status
+    }
+
+    all_chats {
+        int8 chat_id PK
+        text email FK
+        json user_messages
+        json llm_responses
+    }</code></pre>
 <h2 id="data-retention-policies">🛡 Data Retention Policies</h2>
-<p>To prevent the database from growing infinitely (since telemetry generates massive amounts of data), we implement a Cron Job (via pg_cron in Supabase).</p>
-<p>High Resolution: Keep raw data for 7 days.</p>
-<p>Medium Resolution: After 7 days, average the data into 1-hour chunks.</p>
-<p>Low Resolution: After 30 days, average the data into 1-day chunks.</p>
-<p>Purge: Delete data older than 1 year.</p>
+<p>To prevent the user_system_reports table from growing infinitely, we implement a cleanup strategy via pg_cron or Edge Functions:</p>
+<p>High Resolution: Raw jsonb telemetry is kept for 7 days.</p>
+<p>Archival: After 7 days, older reports are deleted or summarized into lightweight stats, freeing up storage space.</p>
 
 
 
