@@ -1,5 +1,6 @@
 from google_auth_oauthlib.flow import InstalledAppFlow
 from requests_oauthlib.oauth2_session import OAuth2Session
+from constants import CLIENT_SECRETS_PATH
 import json
 
 SCOPES = [
@@ -11,7 +12,7 @@ SCOPES = [
 
 def main():
     flow = InstalledAppFlow.from_client_secrets_file(
-        "client_secret.json",
+        CLIENT_SECRETS_PATH,
         scopes=SCOPES,
     )
 

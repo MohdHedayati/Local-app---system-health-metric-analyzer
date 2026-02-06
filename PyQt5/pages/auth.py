@@ -11,11 +11,12 @@ from PyQt5.QtWidgets import (
     QInputDialog,
 )
 from PyQt5.QtCore import Qt
+from PyQt5.QtGui import QFont, QColor, QIcon
 
 from google_auth_oauthlib.flow import InstalledAppFlow
 import webbrowser
 
-TOKEN_FILE = "token.json"
+from utils.constants import TOKEN_FILE 
 
 SCOPES = [
     "openid",
@@ -28,15 +29,54 @@ class LoginWindow(QWidget):
     def __init__(self):
         super().__init__()
         self.setWindowTitle("Login with Google")
-        self.setFixedSize(400, 200)
+        self.setFixedSize(600, 450) # Increased size
+
+    # icon
+        from utils.constants import ICON_PATH
+        self.setWindowIcon(QIcon(ICON_PATH))
+
+        # Apply Dark Mode Stylesheet
+        self.setStyleSheet("""
+            QWidget {
+                background-color: #121212;
+                color: #e0e0e0;
+                font-family: 'Segoe UI', 'Roboto', sans-serif;
+            }
+            QLabel {
+                font-size: 36px;
+                font-weight: bold;
+                color: #ffffff;
+                margin-bottom: 20px;
+            }
+            QPushButton {
+                background-color: #1a73e8;
+                border: 2px solid #1a73e8;
+                color: white;
+                padding: 12px 24px;
+                font-size: 24px;
+                border-radius: 8px;
+                font-weight: 600;
+            }
+            QPushButton:hover {
+                background-color: #1557b0;
+                border-color: #1557b0;
+            }
+            QPushButton:pressed {
+                background-color: #104386;
+            }
+        """)
 
         layout = QVBoxLayout()
         layout.setAlignment(Qt.AlignCenter)
+        layout.setContentsMargins(40, 40, 40, 40)
+        layout.setSpacing(20)
 
         self.info_label = QLabel("Please log in with your Google account.")
         self.info_label.setAlignment(Qt.AlignCenter)
+        self.info_label.setWordWrap(True)
 
         self.login_button = QPushButton("Login with Google")
+        self.login_button.setCursor(Qt.PointingHandCursor)
         self.login_button.clicked.connect(self.handle_login)
 
         layout.addWidget(self.info_label)
@@ -55,8 +95,9 @@ class LoginWindow(QWidget):
 
         try:
             # Create flow without local server
+            from utils.constants import CLIENT_SECRETS_PATH
             flow = InstalledAppFlow.from_client_secrets_file(
-                "client_secret.json",
+                CLIENT_SECRETS_PATH,
                 scopes=SCOPES,
             )
             # IMPORTANT: set redirect URI for manual copy-paste flow
@@ -69,6 +110,7 @@ class LoginWindow(QWidget):
             )
 
             # Step 2: open browser for user to authenticate
+            print(f"Please visit this URL to authorize: {auth_url}")
             webbrowser.open(auth_url, new=1)
 
             # Step 3: user pastes authorization code back
@@ -105,7 +147,7 @@ class LoginWindow(QWidget):
             with open(TOKEN_FILE, "w") as f:
                 json.dump(data_to_store, f)
             
-            from dashboard import DashboardWindow
+            from pages.dashboard import DashboardWindow
 
             user_name = profile_info.get("name") or profile_info.get("email", "User")
             self.dashboard = DashboardWindow(user_name=user_name)

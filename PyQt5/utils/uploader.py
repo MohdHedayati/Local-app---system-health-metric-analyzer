@@ -1,8 +1,8 @@
 from supabase import create_client
-import uuid
+from utils.packager import build_payload
+from utils.path_helper import resource_path
 import json
-
-SECRETS_PATH = "supabase_secrets.json"
+from utils.constants import SECRETS_PATH
 try:
     with open(SECRETS_PATH, 'r') as file:
         secrets = json.load(file)
@@ -21,13 +21,7 @@ key = secrets["service_role_key"]
 
 supabase = create_client(url, key)
 
-data = {
-    "email": "test@local",
-    "secret_id": str(uuid.uuid4()),
-    "payload": {"cpu": 40, "ram": 60},
-    "device_name": "arch-linux",
-    "os": "Linux"
-}
-
-res = supabase.table("system_reports").insert(data).execute()
-print(res)
+def upload():
+    supabase.table("user_system_reports").insert(
+        build_payload()
+    ).execute()
