@@ -243,7 +243,7 @@ class DashboardWindow(QWidget):
         """)
 
         # Connect to browser opener
-        self.site_btn.clicked.connect(lambda: QDesktopServices.openUrl(QUrl("https://systemhealthmetricsanalyser-sszqxkx5onxfct2skm4c94.streamlit.app/")))
+        self.site_btn.clicked.connect(lambda: QDesktopServices.openUrl(QUrl("https://once-1296-web-app-for-system-health-metrics-analyse-main-5evupf.streamlit.app/")))
         self.start_btn.clicked.connect(self.start_monitoring)
         self.stop_btn.clicked.connect(self.stop_monitoring)
         self.upload_btn.clicked.connect(self.handle_upload)
