@@ -16,7 +16,7 @@ If you wish to run the source code or contribute, follow these steps.
 ### 1. Installation
 ```bash
 # Clone the Windows branch
-git clone -b main [https://github.com/YourUsername/YourRepoName.git](https://github.com/YourUsername/YourRepoName.git)
+git clone https://github.com/MohdHedayati/Local-app---system-health-metric-analyzer.git
 
 # Create Virtual Environment (Verified on Python 3.12.0)
 python -m venv venv 
